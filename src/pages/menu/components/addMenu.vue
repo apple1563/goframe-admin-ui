@@ -38,76 +38,57 @@
             <t-input-number placeholder="请输入" />
           </t-form-item>
           <t-form-item v-if="type !== 3" :label-width="0">
-            <t-row>
-              <t-col>
-                <t-form-item label="根路由" name="type" :initial-data="1">
-                  <t-radio-group default-value="2">
-                    <t-radio-button value="1">启用</t-radio-button>
-                    <t-radio-button value="2">禁用</t-radio-button>
-                  </t-radio-group>
-                </t-form-item>
-              </t-col>
-              <t-col>
-                <t-form-item label="页签固定" name="type" :initial-data="1">
-                  <t-radio-group default-value="2">
-                    <t-radio-button value="1">启用</t-radio-button>
-                    <t-radio-button value="2">禁用</t-radio-button>
-                  </t-radio-group>
-                </t-form-item>
-              </t-col>
-            </t-row>
+            <t-form-item label="根路由" name="type" :initial-data="1">
+              <t-radio-group default-value="2">
+                <t-radio-button value="1">启用</t-radio-button>
+                <t-radio-button value="2">禁用</t-radio-button>
+              </t-radio-group>
+            </t-form-item>
+
+            <t-form-item label="页签固定" name="type" :initial-data="1">
+              <t-radio-group default-value="2">
+                <t-radio-button value="1">启用</t-radio-button>
+                <t-radio-button value="2">禁用</t-radio-button>
+              </t-radio-group>
+            </t-form-item>
           </t-form-item>
           <t-form-item v-if="type !== 3" :label-width="0">
-            <t-row>
-              <t-col>
-                <t-form-item label="简化路由" name="type" :initial-data="1">
-                  <t-radio-group default-value="2">
-                    <t-radio-button value="1">启用</t-radio-button>
-                    <t-radio-button value="2">禁用</t-radio-button>
-                  </t-radio-group>
-                </t-form-item>
-              </t-col>
-              <t-col>
-                <t-form-item label="缓存路由" name="type" :initial-data="1">
-                  <t-radio-group default-value="2">
-                    <t-radio-button value="1">启用</t-radio-button>
-                    <t-radio-button value="2">禁用</t-radio-button>
-                  </t-radio-group>
-                </t-form-item>
-              </t-col>
-            </t-row>
+            <t-form-item label="简化路由" name="type" :initial-data="1">
+              <t-radio-group default-value="2">
+                <t-radio-button value="1">启用</t-radio-button>
+                <t-radio-button value="2">禁用</t-radio-button>
+              </t-radio-group>
+            </t-form-item>
+
+            <t-form-item label="缓存路由" name="type" :initial-data="1">
+              <t-radio-group default-value="2">
+                <t-radio-button value="1">启用</t-radio-button>
+                <t-radio-button value="2">禁用</t-radio-button>
+              </t-radio-group>
+            </t-form-item>
           </t-form-item>
           <t-form-item v-if="type !== 3" :label-width="0">
-            <t-row>
-              <t-col>
-                <t-form-item label="是否隐藏" name="type" :initial-data="1">
-                  <t-radio-group default-value="2">
-                    <t-radio-button value="1">启用</t-radio-button>
-                    <t-radio-button value="2">禁用</t-radio-button>
-                  </t-radio-group>
-                </t-form-item>
-              </t-col>
-              <t-col>
-                <t-form-item label="是否外链" name="type" :initial-data="1">
-                  <t-radio-group default-value="2">
-                    <t-radio-button value="1">启用</t-radio-button>
-                    <t-radio-button value="2">禁用</t-radio-button>
-                  </t-radio-group>
-                </t-form-item>
-              </t-col>
-            </t-row>
+            <t-form-item label="是否隐藏" name="type" :initial-data="1">
+              <t-radio-group default-value="2">
+                <t-radio-button value="1">启用</t-radio-button>
+                <t-radio-button value="2">禁用</t-radio-button>
+              </t-radio-group>
+            </t-form-item>
+
+            <t-form-item label="是否外链" name="type" :initial-data="1">
+              <t-radio-group default-value="2">
+                <t-radio-button value="1">启用</t-radio-button>
+                <t-radio-button value="2">禁用</t-radio-button>
+              </t-radio-group>
+            </t-form-item>
           </t-form-item>
           <t-form-item :label-width="0">
-            <t-row>
-              <t-col>
-                <t-form-item label="状态" name="type" :initial-data="1">
-                  <t-radio-group default-value="2">
-                    <t-radio-button value="1">启用</t-radio-button>
-                    <t-radio-button value="2">禁用</t-radio-button>
-                  </t-radio-group>
-                </t-form-item>
-              </t-col>
-            </t-row>
+            <t-form-item label="状态" name="type" :initial-data="1">
+              <t-radio-group default-value="2">
+                <t-radio-button value="1">启用</t-radio-button>
+                <t-radio-button value="2">禁用</t-radio-button>
+              </t-radio-group>
+            </t-form-item>
           </t-form-item>
         </t-form>
       </t-space>

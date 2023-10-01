@@ -45,6 +45,7 @@ const dynamicComponent = computed(() => {
 });
 </script>
 <style lang="less" scoped>
+/* stylelint-disable */
 .result {
   &-link {
     color: var(--td-brand-color);

@@ -43,5 +43,5 @@ const switchType = (val: string) => {
 </script>
 
 <style lang="less" scoped>
-@import url('./index.less');
+@import './index.less';
 </style>

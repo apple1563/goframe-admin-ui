@@ -5,7 +5,14 @@
         <t-button @click="visible = true"> 添加菜单</t-button>
         <t-tree :data="TREE_DATA" hover expand-on-click-node :default-expanded="expanded" :filter="filterByText" />
       </div>
-      <div class="list-tree-content"></div>
+      <div class="list-tree-content">
+        <t-space size="small">
+          <edit2-icon />
+          <span>编辑</span>
+        </t-space>
+        <t-divider />
+        <edit-menu />
+      </div>
     </div>
     <add-menu :visible="visible" @handle-add-menu-visible="handleAddMenuVisible" />
   </div>
@@ -19,9 +26,11 @@ export default {
 
 <script setup lang="ts">
 // import type { TreeNodeModel } from 'tdesign-vue-next';
+import { Edit2Icon } from 'tdesign-icons-vue-next';
 import { ref } from 'vue';
 
 import AddMenu from './components/addMenu.vue';
+import EditMenu from './components/editMenu.vue';
 import { TREE_DATA } from './constants';
 
 const filterByText = ref();
@@ -55,12 +64,13 @@ const handleAddMenuVisible = () => {
 }
 
 .list-tree-operator {
-  width: 280px;
+  width: 40%;
   float: left;
   padding: var(--td-comp-paddingTB-xxl) var(--td-comp-paddingLR-xxl);
 }
 
 .list-tree-content {
+  padding: var(--td-comp-paddingTB-xxl) var(--td-comp-paddingLR-xxl);
   border-left: 1px solid var(--td-border-level-1-color);
   overflow: auto;
 }

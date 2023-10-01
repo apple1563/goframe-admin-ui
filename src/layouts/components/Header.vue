@@ -177,6 +177,7 @@ const navToHelper = () => {
       z-index: 10;
       width: auto;
       transition: all 0.3s;
+
       &-compact {
         left: 64px;
       }
@@ -188,6 +189,7 @@ const navToHelper = () => {
     display: inline-flex;
   }
 }
+
 .header-menu {
   flex: 1 1 1;
   display: inline-flex;
@@ -229,6 +231,7 @@ const navToHelper = () => {
   .t-logo {
     width: 100%;
     height: 100%;
+
     &:hover {
       cursor: pointer;
     }
@@ -254,12 +257,14 @@ const navToHelper = () => {
     color: var(--td-text-color-primary);
   }
 }
+
 .t-menu--dark {
   .t-head-menu__inner {
     border-bottom: 1px solid var(--td-gray-color-10);
   }
+
   .header-user-account {
-    color: rgba(255, 255, 255, 0.55);
+    color: rgb(255 255 255 / 55%);
   }
 }
 
@@ -280,8 +285,9 @@ const navToHelper = () => {
 
   :deep(.t-dropdown__item) {
     width: 100%;
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
+
   &:last-child {
     :deep(.t-dropdown__item) {
       margin-bottom: 8px;

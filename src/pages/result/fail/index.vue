@@ -21,6 +21,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 75vh;
+
   &-icon {
     font-size: var(--td-comp-size-xxxxl);
     color: var(--td-text-color-secondary);

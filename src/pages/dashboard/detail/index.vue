@@ -258,6 +258,7 @@ const onMaterialChange = (value: string[]) => {
     .t-icon {
       font-size: var(--td-comp-size-xxxs);
     }
+
     &-left {
       display: flex;
 

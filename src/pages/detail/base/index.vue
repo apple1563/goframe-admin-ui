@@ -115,5 +115,5 @@ const BASE_INFO_DATA = [
 </script>
 
 <style lang="less" scoped>
-@import url('./index.less');
+@import './index.less';
 </style>
