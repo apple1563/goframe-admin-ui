@@ -3,7 +3,7 @@
     <t-space direction="vertical" size="large" style="width: 100%">
       <t-form>
         <t-form-item :label-width="0">
-          <t-form-item class="w-p40" label="类型">
+          <t-form-item class="w-p45" label="类型">
             <t-radio-group v-model="type" :default-value="2">
               <t-radio-button :value="1">目录</t-radio-button>
               <t-radio-button :value="2">菜单</t-radio-button>
@@ -15,7 +15,7 @@
           </t-form-item>
         </t-form-item>
         <t-form-item :label-width="0">
-          <t-form-item class="w-p40" label="名称" name="name" initial-data="123456">
+          <t-form-item class="w-p45" label="名称" name="name" initial-data="123456">
             <t-input placeholder="请输入" />
           </t-form-item>
           <t-form-item v-if="type !== 3" label="图标" name="icon" initial-data="123456">
@@ -23,7 +23,7 @@
           </t-form-item>
         </t-form-item>
         <t-form-item :label-width="0">
-          <t-form-item v-if="type !== 3" class="w-p40" label="路由地址" name="icon" initial-data="123456">
+          <t-form-item v-if="type !== 3" class="w-p45" label="路由地址" name="icon" initial-data="123456">
             <t-input placeholder="请输入" />
           </t-form-item>
           <t-form-item label="路由别名" name="icon" initial-data="123456">
@@ -31,7 +31,7 @@
           </t-form-item>
         </t-form-item>
         <t-form-item :label-width="0">
-          <t-form-item v-if="type !== 3" class="w-p40" label="组件路径" name="icon" initial-data="123456">
+          <t-form-item v-if="type !== 3" class="w-p45" label="组件路径" name="icon" initial-data="123456">
             <t-input placeholder="请输入" />
           </t-form-item>
           <t-form-item v-if="type === 1" label="默认跳转" name="icon" initial-data="123456">
@@ -39,7 +39,7 @@
           </t-form-item>
         </t-form-item>
         <t-form-item :label-width="0">
-          <t-form-item v-if="type !== 3" class="w-p40" label="高亮路由" name="icon" initial-data="123456">
+          <t-form-item v-if="type !== 3" class="w-p45" label="高亮路由" name="icon" initial-data="123456">
             <t-input placeholder="请输入" />
           </t-form-item>
           <t-form-item v-if="type !== 3" label="菜单排序" name="icon" initial-data="123456">
@@ -47,7 +47,7 @@
           </t-form-item>
         </t-form-item>
         <t-form-item v-if="type !== 3" :label-width="0">
-          <t-form-item class="w-p40" label="根路由" name="type" :initial-data="1">
+          <t-form-item class="w-p45" label="根路由" name="type" :initial-data="1">
             <t-radio-group default-value="2">
               <t-radio-button value="1">启用</t-radio-button>
               <t-radio-button value="2">禁用</t-radio-button>
@@ -61,7 +61,7 @@
           </t-form-item>
         </t-form-item>
         <t-form-item v-if="type !== 3" :label-width="0">
-          <t-form-item class="w-p40" label="简化路由" name="type" :initial-data="1">
+          <t-form-item class="w-p45" label="简化路由" name="type" :initial-data="1">
             <t-radio-group default-value="2">
               <t-radio-button value="1">启用</t-radio-button>
               <t-radio-button value="2">禁用</t-radio-button>
@@ -75,7 +75,7 @@
           </t-form-item>
         </t-form-item>
         <t-form-item v-if="type !== 3" :label-width="0">
-          <t-form-item class="w-p40" label="是否隐藏" name="type" :initial-data="1">
+          <t-form-item class="w-p45" label="是否隐藏" name="type" :initial-data="1">
             <t-radio-group default-value="2">
               <t-radio-button value="1">启用</t-radio-button>
               <t-radio-button value="2">禁用</t-radio-button>
@@ -89,7 +89,7 @@
           </t-form-item>
         </t-form-item>
         <t-form-item :label-width="0">
-          <t-form-item class="w-p40" label="状态" name="type" :initial-data="1">
+          <t-form-item class="w-p45" label="状态" name="type" :initial-data="1">
             <t-radio-group default-value="2">
               <t-radio-button value="1">启用</t-radio-button>
               <t-radio-button value="2">禁用</t-radio-button>
@@ -120,7 +120,7 @@ const type = ref(1);
 // const emit = defineEmits(['handle-add-menu-visible']);
 </script>
 <style lang="less" scoped>
-.w-p40 {
-  width: 40%;
+.w-p45 {
+  width: 45%;
 }
 </style>
