@@ -49,4 +49,19 @@ export default [
       },
     ],
   },
+  {
+    path: '/role', // 开发时候用的，后面改成从后端获取
+    name: 'role',
+    component: Layout,
+    redirect: '/role/index',
+    meta: { title: '角色管理', icon: 'usergroup' },
+    children: [
+      {
+        path: 'index',
+        name: 'RoleIndex',
+        component: () => import('@/pages/role/index.vue'),
+        meta: { title: '角色管理' },
+      },
+    ],
+  },
 ];
