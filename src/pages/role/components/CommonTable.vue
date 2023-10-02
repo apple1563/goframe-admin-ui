@@ -63,7 +63,7 @@
 import { MessagePlugin, PageInfo, PrimaryTableCol, TableRowData } from 'tdesign-vue-next';
 import { computed, onMounted, ref } from 'vue';
 
-import { getList } from '@/api/list';
+import { getList } from '@/api/role';
 import { prefix } from '@/config/global';
 import { ROLE_STATUS } from '@/pages/role/constants';
 import { useSettingStore } from '@/store';

@@ -24,6 +24,8 @@ export const usePermissionStore = defineStore('permission', {
       // this.routers = [...homepageRouterList, ...accessedRouters];
       // 在菜单只展示动态路由
       // this.routers = [...accessedRouters];
+      // 只展示首页
+      // this.routers = [...homepageRouterList];
     },
     async buildAsyncRoutes() {
       try {
