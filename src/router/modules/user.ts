@@ -34,19 +34,4 @@ export default [
       },
     ],
   },
-  {
-    path: '/menu', // 开发时候用的，后面改成从后端获取
-    name: 'menu',
-    component: Layout,
-    redirect: '/menu/index',
-    meta: { title: '菜单管理', icon: 'menu-fold' },
-    children: [
-      {
-        path: 'index',
-        name: 'MenuIndex',
-        component: () => import('@/pages/menu/index.vue'),
-        meta: { title: '菜单管理' },
-      },
-    ],
-  },
 ];

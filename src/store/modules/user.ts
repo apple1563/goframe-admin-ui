@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 
+import { login } from '@/api/login';
 import { usePermissionStore } from '@/store';
 import type { UserInfo } from '@/types/interface';
 
@@ -19,8 +20,8 @@ export const useUserStore = defineStore('user', {
     },
   },
   actions: {
-    async login(userInfo: Record<string, unknown>) {
-      const mockLogin = async (userInfo: Record<string, unknown>) => {
+    async login(userInfo: Record<string, string>) {
+      /* const mockLogin = async (userInfo: Record<string, unknown>) => {
         // 登录请求流程
         console.log(`用户信息:`, userInfo);
         // const { account, password } = userInfo;
@@ -45,14 +46,13 @@ export const useUserStore = defineStore('user', {
           message: '登录成功',
           data: 'main_token',
         };
-      };
-
-      const res = await mockLogin(userInfo);
-      if (res.code === 200) {
-        this.token = res.data;
-      } else {
-        throw res;
-      }
+      }; */
+      // const res = await mockLogin(userInfo);
+      const res = await login({
+        username: userInfo.account,
+        password: userInfo.password,
+      });
+      this.token = res.token;
     },
     async getUserInfo() {
       const mockRemoteUserInfo = async (token: string) => {
