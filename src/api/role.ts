@@ -2,7 +2,7 @@ import type { ListResult } from '@/api/model/listModel';
 import { request } from '@/utils/request';
 
 const Api = {
-  RoleList: '/api/role/list',
+  RoleList: '/role/list',
 };
 
 export function getList() {

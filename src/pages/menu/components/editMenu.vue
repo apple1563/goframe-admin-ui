@@ -1,98 +1,101 @@
 <template>
   <div>
     <t-space direction="vertical" size="large" style="width: 100%">
-      <t-form>
+      <t-form ref="form" :data="formData" :rules="RULES">
         <t-form-item :label-width="0">
-          <t-form-item class="w-p45" label="类型">
-            <t-radio-group v-model="type" :default-value="2">
+          <t-form-item class="w-p45" label="类型" name="type">
+            <t-radio-group v-model="formData.type">
               <t-radio-button :value="1">目录</t-radio-button>
               <t-radio-button :value="2">菜单</t-radio-button>
               <t-radio-button :value="3">按钮</t-radio-button>
             </t-radio-group>
           </t-form-item>
-          <t-form-item label="上级" name="pid" initial-data="123456">
-            <t-tree-select />
+          <t-form-item label="上级" name="pid">
+            <t-tree-select v-model="formData.pid" />
           </t-form-item>
         </t-form-item>
         <t-form-item :label-width="0">
-          <t-form-item class="w-p45" label="名称" name="name" initial-data="123456">
-            <t-input placeholder="请输入" />
+          <t-form-item class="w-p45" label="名称" name="title">
+            <t-input v-model="formData.title" placeholder="请输入" />
           </t-form-item>
-          <t-form-item v-if="type !== 3" label="图标" name="icon" initial-data="123456">
-            <t-input placeholder="请输入" />
-          </t-form-item>
-        </t-form-item>
-        <t-form-item :label-width="0">
-          <t-form-item v-if="type !== 3" class="w-p45" label="路由地址" name="icon" initial-data="123456">
-            <t-input placeholder="请输入" />
-          </t-form-item>
-          <t-form-item label="路由别名" name="icon" initial-data="123456">
-            <t-input placeholder="请输入" />
+          <t-form-item v-if="type !== 3" label="图标" name="icon">
+            <t-input v-model="formData.icon" placeholder="请输入" />
           </t-form-item>
         </t-form-item>
         <t-form-item :label-width="0">
-          <t-form-item v-if="type !== 3" class="w-p45" label="组件路径" name="icon" initial-data="123456">
-            <t-input placeholder="请输入" />
+          <t-form-item v-if="type !== 3" class="w-p45" label="路由地址" name="path">
+            <t-input v-model="formData.path" placeholder="请输入" />
           </t-form-item>
-          <t-form-item v-if="type === 1" label="默认跳转" name="icon" initial-data="123456">
-            <t-input placeholder="请输入" />
+          <t-form-item label="路由别名" name="name">
+            <t-input v-model="formData.name" placeholder="请输入" />
           </t-form-item>
         </t-form-item>
         <t-form-item :label-width="0">
-          <t-form-item v-if="type !== 3" class="w-p45" label="高亮路由" name="icon" initial-data="123456">
-            <t-input placeholder="请输入" />
+          <t-form-item v-if="type !== 3" class="w-p45" label="组件路径" name="component">
+            <t-input v-model="formData.component" placeholder="请输入" />
           </t-form-item>
-          <t-form-item v-if="type !== 3" label="菜单排序" name="icon" initial-data="123456">
-            <t-input-number placeholder="请输入" />
+          <t-form-item v-if="type === 1" label="默认跳转" name="redirect">
+            <t-input v-model="formData.redirect" placeholder="请输入" />
+          </t-form-item>
+        </t-form-item>
+        <t-form-item :label-width="0">
+          <t-form-item v-if="type !== 3" class="w-p45" label="高亮路由" name="activeMenu">
+            <t-input v-model="formData.activeMenu" placeholder="请输入" />
+          </t-form-item>
+          <t-form-item v-if="type !== 3" label="菜单排序" name="sort">
+            <t-input-number v-model="formData.sort" placeholder="请输入" />
           </t-form-item>
         </t-form-item>
         <t-form-item v-if="type !== 3" :label-width="0">
-          <t-form-item class="w-p45" label="根路由" name="type" :initial-data="1">
-            <t-radio-group default-value="2">
-              <t-radio-button value="1">启用</t-radio-button>
-              <t-radio-button value="2">禁用</t-radio-button>
+          <t-form-item class="w-p45" label="根路由" name="isRoot">
+            <t-radio-group v-model="formData.isRoot">
+              <t-radio-button :value="1">启用</t-radio-button>
+              <t-radio-button :value="2">禁用</t-radio-button>
             </t-radio-group>
           </t-form-item>
-          <t-form-item label="页签固定" name="type" :initial-data="1">
-            <t-radio-group default-value="2">
-              <t-radio-button value="1">启用</t-radio-button>
-              <t-radio-button value="2">禁用</t-radio-button>
-            </t-radio-group>
-          </t-form-item>
-        </t-form-item>
-        <t-form-item v-if="type !== 3" :label-width="0">
-          <t-form-item class="w-p45" label="简化路由" name="type" :initial-data="1">
-            <t-radio-group default-value="2">
-              <t-radio-button value="1">启用</t-radio-button>
-              <t-radio-button value="2">禁用</t-radio-button>
-            </t-radio-group>
-          </t-form-item>
-          <t-form-item label="缓存路由" name="type" :initial-data="1">
-            <t-radio-group default-value="2">
-              <t-radio-button value="1">启用</t-radio-button>
-              <t-radio-button value="2">禁用</t-radio-button>
+          <t-form-item label="页签固定" name="affix">
+            <t-radio-group v-model="formData.affix">
+              <t-radio-button :value="1">启用</t-radio-button>
+              <t-radio-button :value="2">禁用</t-radio-button>
             </t-radio-group>
           </t-form-item>
         </t-form-item>
         <t-form-item v-if="type !== 3" :label-width="0">
-          <t-form-item class="w-p45" label="是否隐藏" name="type" :initial-data="1">
-            <t-radio-group default-value="2">
-              <t-radio-button value="1">启用</t-radio-button>
-              <t-radio-button value="2">禁用</t-radio-button>
+          <t-form-item class="w-p45" label="简化路由" name="alwaysShow">
+            <t-radio-group v-model="formData.alwaysShow">
+              <t-radio-button :value="1">启用</t-radio-button>
+              <t-radio-button :value="2">禁用</t-radio-button>
             </t-radio-group>
           </t-form-item>
-          <t-form-item label="是否外链" name="type" :initial-data="1">
-            <t-radio-group default-value="2">
-              <t-radio-button value="1">启用</t-radio-button>
-              <t-radio-button value="2">禁用</t-radio-button>
+          <t-form-item label="缓存路由" name="keepAlive">
+            <t-radio-group v-model="formData.keepAlive">
+              <t-radio-button :value="1">启用</t-radio-button>
+              <t-radio-button :value="2">禁用</t-radio-button>
             </t-radio-group>
           </t-form-item>
         </t-form-item>
+        <t-form-item v-if="type !== 3" :label-width="0">
+          <t-form-item label="是否外链" name="isFrame">
+            <t-radio-group v-model="formData.isFrame">
+              <t-radio-button :value="1">启用</t-radio-button>
+              <t-radio-button :value="2">禁用</t-radio-button>
+            </t-radio-group>
+          </t-form-item>
+          <t-form-item v-if="formData.isFrame === 1" label="外链地址" name="frameSrc">
+            <t-input v-model="formData.frameSrc" placeholder="请输入" />
+          </t-form-item>
+        </t-form-item>
         <t-form-item :label-width="0">
-          <t-form-item class="w-p45" label="状态" name="type" :initial-data="1">
-            <t-radio-group default-value="2">
-              <t-radio-button value="1">启用</t-radio-button>
-              <t-radio-button value="2">禁用</t-radio-button>
+          <t-form-item class="w-p45" label="是否隐藏" name="hidden">
+            <t-radio-group v-model="formData.hidden">
+              <t-radio-button :value="1">启用</t-radio-button>
+              <t-radio-button :value="2">禁用</t-radio-button>
+            </t-radio-group>
+          </t-form-item>
+          <t-form-item class="w-p45" label="状态" name="status">
+            <t-radio-group v-model="formData.status">
+              <t-radio-button :value="1">启用</t-radio-button>
+              <t-radio-button :value="2">禁用</t-radio-button>
             </t-radio-group>
           </t-form-item>
         </t-form-item>
@@ -112,10 +115,12 @@
 
 <script setup>
 import { ref } from 'vue';
-// eslint-disable-next-line
-const props = defineProps({});
 
-const type = ref(1);
+// eslint-disable-next-line
+import { INITIAL_DATA, RULES } from '../constants';
+// const props = defineProps({});
+const form = ref(null);
+const formData = ref(INITIAL_DATA);
 
 // const emit = defineEmits(['handle-add-menu-visible']);
 </script>

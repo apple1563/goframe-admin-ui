@@ -19,7 +19,7 @@
         <div class="operations-container">
           <!-- 搜索框 -->
           <search v-if="layout !== 'side'" :layout="layout" />
-
+          <t-button theme="default" variant="text" @click="handleAddMenuVisible">添加菜单</t-button>
           <!-- 全局通知 -->
           <notice />
 
@@ -60,16 +60,18 @@
         </div>
       </template>
     </t-head-menu>
+    <add-menu :visible="visible" @handle-add-menu-visible="handleAddMenuVisible" />
   </div>
 </template>
 
 <script setup lang="ts">
 import type { PropType } from 'vue';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import LogoFull from '@/assets/assets-logo-full.svg?component';
 import { prefix } from '@/config/global';
+import AddMenu from '@/pages/menu/components/addMenu.vue';
 import { getActive } from '@/router';
 import { useSettingStore, useUserStore } from '@/store';
 import type { MenuRoute } from '@/types/interface';
@@ -77,6 +79,11 @@ import type { MenuRoute } from '@/types/interface';
 import MenuContent from './MenuContent.vue';
 import Notice from './Notice.vue';
 import Search from './Search.vue';
+
+const visible = ref(false);
+const handleAddMenuVisible = () => {
+  visible.value = !visible.value;
+};
 
 const props = defineProps({
   theme: {

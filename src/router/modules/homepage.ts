@@ -33,7 +33,7 @@ export default [
       },
     ],
   },
-  {
+  /* {
     path: '/menu', // 开发时候用的，后面改成从后端获取
     name: 'menu',
     component: Layout,
@@ -47,7 +47,7 @@ export default [
         meta: { title: '菜单管理' },
       },
     ],
-  },
+  }, */
   {
     path: '/role', // 开发时候用的，后面改成从后端获取
     name: 'role',

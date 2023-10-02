@@ -2,8 +2,8 @@
   <div>
     <t-drawer size="large" :visible="visible" header="添加菜单" :on-confirm="onSubmit" @close="handleClose">
       <t-space direction="vertical" size="large" style="width: 100%">
-        <t-form ref="form" :data="formData" @reset="onReset" @submit="onSubmit">
-          <t-form-item label="类型">
+        <t-form ref="form" :data="formData" :rules="RULES" @reset="onReset">
+          <t-form-item label="类型" name="type">
             <t-radio-group v-model="formData.type" :default-value="2">
               <t-radio-button :value="1">目录</t-radio-button>
               <t-radio-button :value="2">菜单</t-radio-button>
@@ -17,7 +17,7 @@
             <t-input v-model="formData.title" placeholder="请输入" />
           </t-form-item>
           <t-form-item v-if="formData.type !== 3" label="图标" name="icon">
-            <t-input v-model="formData.icon" placeholder="请输入" />
+            <t-input v-model="formData.icon" placeholder="请输入图标类名" />
           </t-form-item>
           <t-form-item v-if="formData.type !== 3" label="路由地址" name="path">
             <t-input v-model="formData.path" placeholder="请输入" />
@@ -26,7 +26,10 @@
             <t-input v-model="formData.name" placeholder="请输入" />
           </t-form-item>
           <t-form-item v-if="formData.type !== 3" label="组件路径" name="component">
-            <t-input v-model="formData.component" placeholder="请输入" />
+            <t-input
+              v-model="formData.component"
+              placeholder="主目录填 `Layout`;多级父目录填 `ParentLayout`;页面填具体的组件路径，如：`/system/menu/menu`"
+            />
           </t-form-item>
           <t-form-item v-if="formData.type === 1" label="默认跳转" name="redirect">
             <t-input v-model="formData.redirect" placeholder="请输入" />
@@ -101,6 +104,10 @@
 <script setup lang="ts">
 import { MessagePlugin } from 'tdesign-vue-next';
 import { ref } from 'vue';
+
+import { addMenu } from '@/api/menu';
+
+import { INITIAL_DATA, RULES } from '../constants';
 // eslint-disable-next-line
 const props = defineProps({
   visible: {
@@ -108,8 +115,9 @@ const props = defineProps({
   },
 });
 const form = ref(null);
-const formData = ref({});
+const formData = ref(INITIAL_DATA);
 const emit = defineEmits(['handle-add-menu-visible']);
+
 const handleClose = () => {
   emit('handle-add-menu-visible');
 };
@@ -118,14 +126,21 @@ const onReset = () => {
 };
 const onSubmit = () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
-  form.value.validate({ showErrorMessage: true }).then((validateResult) => {
+  form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
+    if (validateResult === true) {
+      console.log(formData);
+      const res = await addMenu(formData.value);
+      console.log(res);
+      return;
+    }
     if (validateResult && Object.keys(validateResult).length) {
       const firstError = Object.values(validateResult)[0]?.[0]?.message;
       MessagePlugin.warning(firstError);
     }
   });
-  if (ctx.validateResult === true) {
+
+  /* if (ctx.validateResult === true) {
     MessagePlugin.success('添加成功');
-  }
+  } */
 };
 </script>
