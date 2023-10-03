@@ -68,6 +68,7 @@
 import { MessagePlugin, PageInfo, PrimaryTableCol, TableRowData } from 'tdesign-vue-next';
 import { computed, onMounted, ref, watch } from 'vue';
 
+import type { RoleItem } from '@/api/model/roleModel';
 import { delRole, getList } from '@/api/role';
 import { prefix } from '@/config/global';
 import { ROLE_STATUS } from '@/pages/role/constants';
@@ -214,8 +215,11 @@ const rehandlePageChange = (pageInfo: PageInfo, newDataSource: TableRowData[]) =
 const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);
 };
-const rehandleClickOp = (ctx: unknown) => {
-  console.log(ctx);
+
+const currentRow = ref<RoleItem>();
+const rehandleClickOp = (slot: { row: { id: number } }) => {
+  currentRow.value = slot.row;
+  editRole();
 };
 
 const headerAffixedTop = computed(
@@ -230,6 +234,10 @@ const emit = defineEmits(['handle-visible']);
 
 const addRole = () => {
   emit('handle-visible');
+};
+
+const editRole = () => {
+  emit('handle-visible', currentRow.value);
 };
 </script>
 

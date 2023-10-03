@@ -13,6 +13,13 @@ export function addRole(data: RoleItem) {
   });
 }
 
+export function updateRole(data: RoleItem) {
+  return request.put<null>({
+    url: Api.Role,
+    data,
+  });
+}
+
 export function delRole(id: number) {
   return request.delete<null>({
     url: Api.Role,
