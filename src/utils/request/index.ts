@@ -2,6 +2,7 @@
 import type { AxiosInstance } from 'axios';
 import isString from 'lodash/isString';
 import merge from 'lodash/merge';
+import { MessagePlugin } from 'tdesign-vue-next';
 
 import { ContentTypeEnum } from '@/constants';
 import { useUserStore } from '@/store';
@@ -44,15 +45,15 @@ const transform: AxiosTransform = {
     }
 
     //  这里 code为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, msg } = data;
+    const { code, message } = data;
 
     // 这里逻辑可以根据项目进行修改
     const hasSuccess = data && code === 0;
     if (hasSuccess) {
       return data.data;
     }
-
-    throw new Error(`请求接口错误, 错误码: ${code}，信息：${msg}`);
+    MessagePlugin.error(message);
+    throw new Error(`请求接口错误, 错误码: ${code}，信息：${message}`);
   },
 
   // 请求前处理配置

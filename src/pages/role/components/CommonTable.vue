@@ -19,6 +19,9 @@
         </t-col>
 
         <t-col :span="2" class="operation-container">
+          <t-button theme="primary" type="button" :style="{ marginLeft: 'var(--td-comp-margin-s)' }" @click="addRole">
+            添加
+          </t-button>
           <t-button theme="primary" type="submit" :style="{ marginLeft: 'var(--td-comp-margin-s)' }"> 查询 </t-button>
           <t-button type="reset" variant="base" theme="default"> 重置 </t-button>
         </t-col>
@@ -44,6 +47,8 @@
         </template>
         <template #op="slotProps">
           <t-space>
+            <t-link theme="primary" @click="rehandleClickOp(slotProps)">菜单权限</t-link>
+            <t-link theme="primary" @click="rehandleClickOp(slotProps)">API权限</t-link>
             <t-link theme="primary" @click="rehandleClickOp(slotProps)">编辑</t-link>
             <t-link theme="danger" @click="handleClickDelete(slotProps)">删除</t-link>
           </t-space>
@@ -61,18 +66,31 @@
 </template>
 <script setup lang="ts">
 import { MessagePlugin, PageInfo, PrimaryTableCol, TableRowData } from 'tdesign-vue-next';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
-import { getList } from '@/api/role';
+import { delRole, getList } from '@/api/role';
 import { prefix } from '@/config/global';
 import { ROLE_STATUS } from '@/pages/role/constants';
 import { useSettingStore } from '@/store';
 
+const props = defineProps({
+  doFetch: {
+    type: Boolean,
+  },
+});
+
+watch(
+  () => props.doFetch, // 侦听props中的doFetch
+  () => {
+    fetchData().then();
+  },
+);
+
 interface FormData {
   name: string;
-  no: string;
+  no?: string;
   status?: number;
-  type: string;
+  type?: string;
 }
 
 const store = useSettingStore();
@@ -110,8 +128,6 @@ const COLUMNS: PrimaryTableCol[] = [
 
 const searchForm = {
   name: '',
-  no: '',
-  type: '',
 };
 
 const formData = ref<FormData>({ ...searchForm });
@@ -123,6 +139,8 @@ const pagination = ref({
   defaultPageSize: 20,
   total: 100,
   defaultCurrent: 1,
+  current: 1,
+  pageSize: 20,
 });
 const confirmVisible = ref(false);
 
@@ -132,11 +150,15 @@ const dataLoading = ref(false);
 const fetchData = async () => {
   dataLoading.value = true;
   try {
-    const { list } = await getList();
+    const { list, total } = await getList({
+      name: formData.value.name,
+      page: pagination.value.current,
+      size: pagination.value.pageSize,
+    });
     data.value = list;
     pagination.value = {
       ...pagination.value,
-      total: list.length,
+      total,
     };
   } catch (e) {
     console.log(e);
@@ -148,8 +170,7 @@ const fetchData = async () => {
 const deleteIdx = ref(-1);
 const confirmBody = computed(() => {
   if (deleteIdx.value > -1) {
-    const { name } = data.value[deleteIdx.value];
-    return `删除后，${name}的所有合同信息将被清空，且无法恢复`;
+    return `删除后，角色关联权限将被清空，且无法恢复`;
   }
   return '';
 });
@@ -158,13 +179,13 @@ const resetIdx = () => {
   deleteIdx.value = -1;
 };
 
-const onConfirmDelete = () => {
+const onConfirmDelete = async () => {
+  await delRole(deleteIdx.value);
   // 真实业务请发起请求
-  data.value.splice(deleteIdx.value, 1);
-  pagination.value.total = data.value.length;
   confirmVisible.value = false;
   MessagePlugin.success('删除成功');
   resetIdx();
+  fetchData();
 };
 
 const onCancel = () => {
@@ -175,19 +196,20 @@ onMounted(() => {
   fetchData();
 });
 
-const handleClickDelete = (slot: { row: { rowIndex: number } }) => {
-  deleteIdx.value = slot.row.rowIndex;
+const handleClickDelete = (slot: { row: { id: number } }) => {
+  deleteIdx.value = slot.row.id;
   confirmVisible.value = true;
 };
 const onReset = (val: unknown) => {
   console.log(val);
 };
-const onSubmit = (val: unknown) => {
-  console.log(val);
-  console.log(formData.value);
+const onSubmit = () => {
+  fetchData();
 };
 const rehandlePageChange = (pageInfo: PageInfo, newDataSource: TableRowData[]) => {
   console.log('分页变化', pageInfo, newDataSource);
+  pagination.value.current = pageInfo.current;
+  pagination.value.pageSize = pageInfo.pageSize;
 };
 const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);
@@ -203,6 +225,12 @@ const headerAffixedTop = computed(
       container: `.${prefix}-layout`,
     } as any), // TO BE FIXED
 );
+
+const emit = defineEmits(['handle-visible']);
+
+const addRole = () => {
+  emit('handle-visible');
+};
 </script>
 
 <style lang="less" scoped>

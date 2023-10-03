@@ -130,10 +130,10 @@ getMenuTree().then((res) => {
 });
 const form = ref(null);
 const formData = ref(INITIAL_DATA);
-const emit = defineEmits(['handle-add-menu-visible']);
+const emit = defineEmits(['handle-visible']);
 
 const handleClose = () => {
-  emit('handle-add-menu-visible');
+  emit('handle-visible');
 };
 const onReset = () => {
   form.value.reset();

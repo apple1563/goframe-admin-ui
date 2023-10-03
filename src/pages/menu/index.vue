@@ -14,7 +14,7 @@
         <edit-menu />
       </div>
     </div>
-    <add-menu :visible="visible" @handle-add-menu-visible="handleAddMenuVisible" />
+    <add-menu :visible="visible" @handle-visible="handleVisible" />
   </div>
 </template>
 
@@ -44,7 +44,7 @@ const expanded = ['0', '0-0', '0-1', '0-2', '0-3', '0-4'];
     return node.label.indexOf(filterText.value) >= 0;
   };
 }; */
-const handleAddMenuVisible = () => {
+const handleVisible = () => {
   visible.value = !visible.value;
 };
 </script>
