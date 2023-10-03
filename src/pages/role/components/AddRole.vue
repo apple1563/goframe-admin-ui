@@ -26,27 +26,25 @@
 
 <script setup lang="ts">
 import { MessagePlugin } from 'tdesign-vue-next';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 
+import type { RoleItem } from '@/api/model/roleModel';
 import { addRole, updateRole } from '@/api/role';
 
 import { INITIAL_DATA, RULES } from '../constants';
 
 // eslint-disable-next-line
-const props = defineProps({
-  visible: Boolean,
-  rowData: Object,
-});
+const props = defineProps<{
+  visible: boolean;
+  rowData: RoleItem;
+  opType: string;
+}>();
 const form = ref(null);
-const formData = ref(INITIAL_DATA);
-const opType = ref('add');
-watch(
-  () => props.rowData,
-  (newVal) => {
-    opType.value = 'update';
-    formData.value = newVal;
-  },
-);
+const formData = ref<RoleItem>(INITIAL_DATA);
+
+if (props.opType === 'update') {
+  formData.value = props.rowData;
+}
 const emit = defineEmits(['handle-visible', 'fetch-data']);
 
 const handleClose = () => {
@@ -62,7 +60,7 @@ const onSubmit = () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
   form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
     if (validateResult === true) {
-      if (opType.value === 'update') {
+      if (props.opType === 'update') {
         await updateRole(formData.value);
         MessagePlugin.success('修改成功');
       } else {

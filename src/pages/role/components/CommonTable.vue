@@ -233,11 +233,11 @@ const headerAffixedTop = computed(
 const emit = defineEmits(['handle-visible']);
 
 const addRole = () => {
-  emit('handle-visible');
+  emit('handle-visible', 'add');
 };
 
 const editRole = () => {
-  emit('handle-visible', currentRow.value);
+  emit('handle-visible', 'update', currentRow.value);
 };
 </script>
 
