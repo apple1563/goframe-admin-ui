@@ -122,9 +122,11 @@ const treeProps = {
     children: 'children',
   },
 };
-const menuTree = ref<Array<MenuItem>>([]);
+// 0表示无上级
+const initailTree = [{ id: 0, title: '' }];
+const menuTree = ref<Array<MenuItem>>(initailTree);
 getMenuTree().then((res) => {
-  menuTree.value = res.list;
+  menuTree.value = res.list.concat(initailTree);
 });
 const form = ref(null);
 const formData = ref(INITIAL_DATA);
@@ -140,7 +142,6 @@ const onSubmit = () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
   form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
     if (validateResult === true) {
-      console.log(formData);
       await addMenu(formData.value);
       MessagePlugin.success('添加成功');
       return;
