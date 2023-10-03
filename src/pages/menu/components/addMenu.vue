@@ -11,7 +11,7 @@
             </t-radio-group>
           </t-form-item>
           <t-form-item label="上级" name="pid">
-            <t-tree-select v-model="formData.pid" />
+            <t-tree-select v-model="formData.pid" :data="menuTree" clearable :tree-props="treeProps" />
           </t-form-item>
           <t-form-item label="名称" name="title">
             <t-input v-model="formData.title" placeholder="请输入" />
@@ -105,7 +105,8 @@
 import { MessagePlugin } from 'tdesign-vue-next';
 import { ref } from 'vue';
 
-import { addMenu } from '@/api/menu';
+import { addMenu, getMenuTree } from '@/api/menu';
+import type { MenuItem } from '@/api/model/menuModel';
 
 import { INITIAL_DATA, RULES } from '../constants';
 // eslint-disable-next-line
@@ -113,6 +114,17 @@ const props = defineProps({
   visible: {
     type: Boolean,
   },
+});
+const treeProps = {
+  keys: {
+    label: 'title',
+    value: 'id',
+    children: 'children',
+  },
+};
+const menuTree = ref<Array<MenuItem>>([]);
+getMenuTree().then((res) => {
+  menuTree.value = res.list;
 });
 const form = ref(null);
 const formData = ref(INITIAL_DATA);
@@ -129,8 +141,8 @@ const onSubmit = () => {
   form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
     if (validateResult === true) {
       console.log(formData);
-      const res = await addMenu(formData.value);
-      console.log(res);
+      await addMenu(formData.value);
+      MessagePlugin.success('添加成功');
       return;
     }
     if (validateResult && Object.keys(validateResult).length) {
