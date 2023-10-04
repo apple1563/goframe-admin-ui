@@ -2,8 +2,26 @@
   <div class="table-tree-container">
     <div class="list-tree-wrapper">
       <div class="list-tree-operator">
-        <t-button @click="visible = true"> 添加菜单</t-button>
-        <t-tree :data="TREE_DATA" hover expand-on-click-node :default-expanded="expanded" :filter="filterByText" />
+        <div class="t-row">
+          <div class="t-col-4">
+            <t-button @click="visible = true"> 添加菜单</t-button>
+          </div>
+          <t-input v-model="filterText" class="t-col-8" placeholder="请输入关键词" @change="onInput">
+            <template #suffix-icon>
+              <search-icon size="var(--td-comp-size-xxxs)" />
+            </template>
+          </t-input>
+        </div>
+        <t-tree
+          :keys="treeProps.keys"
+          :data="treeData"
+          hover
+          activable
+          expand-on-click-node
+          :default-expanded="expanded"
+          :filter="filterByText"
+          @click="clickTree"
+        />
       </div>
       <div class="list-tree-content">
         <t-space size="small">
@@ -11,7 +29,7 @@
           <span>编辑</span>
         </t-space>
         <t-divider />
-        <edit-menu />
+        <edit-menu :selected-menu-data="selectedMenuData" />
       </div>
     </div>
     <add-menu :visible="visible" @handle-visible="handleVisible" />
@@ -25,25 +43,44 @@ export default {
 </script>
 
 <script setup lang="ts">
-// import type { TreeNodeModel } from 'tdesign-vue-next';
-import { Edit2Icon } from 'tdesign-icons-vue-next';
+import { Edit2Icon, SearchIcon } from 'tdesign-icons-vue-next';
+import type { TreeNodeModel } from 'tdesign-vue-next';
 import { ref } from 'vue';
+
+import { useMenuStore } from '@/store';
 
 import AddMenu from './components/addMenu.vue';
 import EditMenu from './components/editMenu.vue';
-import { TREE_DATA } from './constants';
 
+const selectedMenuData = ref({});
+
+const menuStore = useMenuStore();
+const treeData = ref([]);
+menuStore.getMenuTreeList().then(() => {
+  treeData.value = menuStore.menuTreeList;
+});
+const treeProps = {
+  keys: {
+    label: 'title',
+    value: 'id',
+    children: 'children',
+  },
+};
 const filterByText = ref();
-// const filterText = ref();
+const filterText = ref();
 const visible = ref(false);
 
-const expanded = ['0', '0-0', '0-1', '0-2', '0-3', '0-4'];
+const expanded = [];
 
-/* const onInput = () => {
+const clickTree = (context: { node: TreeNodeModel<T>; e: MouseEvent }) => {
+  selectedMenuData.value = context.node.data;
+};
+
+const onInput = () => {
   filterByText.value = (node: TreeNodeModel) => {
     return node.label.indexOf(filterText.value) >= 0;
   };
-}; */
+};
 const handleVisible = () => {
   visible.value = !visible.value;
 };

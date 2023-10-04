@@ -113,15 +113,28 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { PropType, ref, watch } from 'vue';
+
+import type { MenuItem } from '@/api/model/menuModel';
 
 // eslint-disable-next-line
 import { INITIAL_DATA, RULES } from '../constants';
-// const props = defineProps({});
+const props = defineProps({
+  selectedMenuData: {
+    type: Object as PropType<MenuItem>,
+  },
+});
 const form = ref(null);
 const formData = ref(INITIAL_DATA);
 
+watch(
+  () => props.selectedMenuData,
+  () => {
+    formData.value = props.selectedMenuData;
+    console.log(props.selectedMenuData);
+  },
+);
 // const emit = defineEmits(['handle-add-menu-visible']);
 </script>
 <style lang="less" scoped>
