@@ -1,4 +1,4 @@
-import type { RoleResult } from '@/api/model/roleModel';
+import type { userItem } from '@/api/model/userModel';
 import { request } from '@/utils/request';
 
 const Api = {
@@ -40,7 +40,7 @@ export function getList(params: RoleParam) {
 */
 
 export function getUserInfo() {
-  return request.get<RoleResult>({
+  return request.get<userItem>({
     url: Api.UserInfo,
   });
 }

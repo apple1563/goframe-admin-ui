@@ -4,12 +4,12 @@ export interface RoleParam {
   page: number;
   size: number;
 }
+*/
 
-export interface RoleResult {
-  list: Array<RoleItem>;
+export interface UserResult {
+  list: Array<userItem>;
   total: number;
 }
-*/
 
 export interface userItem {
   id: number;
