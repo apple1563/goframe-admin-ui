@@ -47,8 +47,8 @@
         </template>
         <template #op="slotProps">
           <t-space>
-            <t-link theme="primary" @click="rehandleClickOp(slotProps)">菜单权限</t-link>
-            <t-link theme="primary" @click="rehandleClickOp(slotProps)">API权限</t-link>
+            <t-link theme="primary" @click="rehandleClickOpMenu(slotProps)">菜单权限</t-link>
+            <t-link theme="primary" @click="rehandleClickOpAPI(slotProps)">API权限</t-link>
             <t-link theme="primary" @click="rehandleClickOp(slotProps)">编辑</t-link>
             <t-link theme="danger" @click="handleClickDelete(slotProps)">删除</t-link>
           </t-space>
@@ -62,6 +62,7 @@
         @confirm="onConfirmDelete"
       />
     </div>
+    <auth-menu :visible="visible" :current-row="currentRow" @handle-visible="handleVisible" />
   </div>
 </template>
 <script setup lang="ts">
@@ -71,8 +72,24 @@ import { computed, onMounted, ref, watch } from 'vue';
 import type { RoleItem } from '@/api/model/roleModel';
 import { delRole, getList } from '@/api/role';
 import { prefix } from '@/config/global';
+import AuthMenu from '@/pages/role/components/AuthMenu.vue';
 import { ROLE_STATUS } from '@/pages/role/constants';
 import { useSettingStore } from '@/store';
+
+const currentRow = ref<RoleItem>();
+const visible = ref(false);
+const handleVisible = () => {
+  visible.value = !visible.value;
+};
+const rehandleClickOpMenu = (slot: { row: { id: number } }) => {
+  currentRow.value = slot.row;
+  handleVisible();
+};
+
+const rehandleClickOpAPI = (slot: { row: { id: number } }) => {
+  currentRow.value = slot.row;
+  // editRole();
+};
 
 const props = defineProps({
   doFetch: {
@@ -216,7 +233,6 @@ const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);
 };
 
-const currentRow = ref<RoleItem>();
 const rehandleClickOp = (slot: { row: { id: number } }) => {
   currentRow.value = slot.row;
   editRole();
