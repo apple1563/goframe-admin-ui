@@ -7,23 +7,27 @@
             <t-radio-group v-model="formData.type">
               <t-radio-button :value="1">目录</t-radio-button>
               <t-radio-button :value="2">菜单</t-radio-button>
-              <t-radio-button :value="3">按钮</t-radio-button>
             </t-radio-group>
           </t-form-item>
           <t-form-item label="上级" name="pid">
-            <t-tree-select v-model="formData.pid" />
+            <t-tree-select
+              v-model="formData.pid"
+              :disabled="formData.isRoot === 1"
+              :tree-props="treeProps"
+              :data="treeData"
+            />
           </t-form-item>
         </t-form-item>
         <t-form-item :label-width="0">
           <t-form-item class="w-p45" label="名称" name="title">
             <t-input v-model="formData.title" placeholder="请输入" />
           </t-form-item>
-          <t-form-item v-if="formData.type !== 3" label="图标" name="icon">
+          <t-form-item label="图标" name="icon">
             <t-input v-model="formData.icon" placeholder="请输入" />
           </t-form-item>
         </t-form-item>
         <t-form-item :label-width="0">
-          <t-form-item v-if="formData.type !== 3" class="w-p45" label="路由地址" name="path">
+          <t-form-item class="w-p45" label="路由地址" name="path">
             <t-input v-model="formData.path" placeholder="请输入" />
           </t-form-item>
           <t-form-item label="路由别名" name="name">
@@ -31,7 +35,7 @@
           </t-form-item>
         </t-form-item>
         <t-form-item :label-width="0">
-          <t-form-item v-if="formData.type !== 3" class="w-p45" label="组件路径" name="component">
+          <t-form-item class="w-p45" label="组件路径" name="component">
             <t-input v-model="formData.component" placeholder="请输入" />
           </t-form-item>
           <t-form-item v-if="formData.type === 1" label="默认跳转" name="redirect">
@@ -39,16 +43,16 @@
           </t-form-item>
         </t-form-item>
         <t-form-item :label-width="0">
-          <t-form-item v-if="formData.type !== 3" class="w-p45" label="高亮路由" name="activeMenu">
+          <t-form-item class="w-p45" label="高亮路由" name="activeMenu">
             <t-input v-model="formData.activeMenu" placeholder="请输入" />
           </t-form-item>
-          <t-form-item v-if="formData.type !== 3" label="菜单排序" name="sort">
+          <t-form-item label="菜单排序" name="sort">
             <t-input-number v-model="formData.sort" placeholder="请输入" />
           </t-form-item>
         </t-form-item>
-        <t-form-item v-if="formData.type !== 3" :label-width="0">
+        <t-form-item :label-width="0">
           <t-form-item class="w-p45" label="根路由" name="isRoot">
-            <t-radio-group v-model="formData.isRoot">
+            <t-radio-group v-model="formData.isRoot" @change="setIsRoot">
               <t-radio-button :value="1">启用</t-radio-button>
               <t-radio-button :value="2">禁用</t-radio-button>
             </t-radio-group>
@@ -60,7 +64,7 @@
             </t-radio-group>
           </t-form-item>
         </t-form-item>
-        <t-form-item v-if="formData.type !== 3" :label-width="0">
+        <t-form-item :label-width="0">
           <t-form-item class="w-p45" label="简化路由" name="alwaysShow">
             <t-radio-group v-model="formData.alwaysShow">
               <t-radio-button :value="1">启用</t-radio-button>
@@ -74,7 +78,7 @@
             </t-radio-group>
           </t-form-item>
         </t-form-item>
-        <t-form-item v-if="formData.type !== 3" :label-width="0">
+        <t-form-item :label-width="0">
           <t-form-item label="是否外链" name="isFrame">
             <t-radio-group v-model="formData.isFrame">
               <t-radio-button :value="1">启用</t-radio-button>
@@ -103,7 +107,7 @@
       <t-divider />
       <t-space>
         <t-col>
-          <t-button>保存</t-button>
+          <t-button type="button" @click="onSubmit">保存</t-button>
         </t-col>
         <t-col>
           <t-button>删除</t-button>
@@ -115,27 +119,59 @@
 </template>
 
 <script setup lang="ts">
+import { MessagePlugin } from 'tdesign-vue-next';
 import { PropType, ref, watch } from 'vue';
 
+import { editMenu } from '@/api/menu';
 import type { MenuItem } from '@/api/model/menuModel';
+import { useMenuStore } from '@/store';
 
 // eslint-disable-next-line
-import { RULES } from '../constants';
+import { INITIAL_TREE, RULES } from '../constants';
 const props = defineProps({
   selectedMenuData: {
     type: Object as PropType<MenuItem>,
   },
 });
+const treeProps = {
+  keys: {
+    label: 'title',
+    value: 'id',
+    children: 'children',
+  },
+};
 const form = ref(null);
 const formData = ref<MenuItem>();
-
+const menuStore = useMenuStore();
+const treeData = ref([]);
+menuStore.getMenuTreeList().then(() => {
+  treeData.value = menuStore.menuTreeListOnlyFolder.concat(INITIAL_TREE);
+});
 watch(
   () => props.selectedMenuData,
   () => {
     formData.value = props.selectedMenuData;
   },
 );
-// const emit = defineEmits(['handle-add-menu-visible']);
+const setIsRoot = () => {
+  if (formData.value.isRoot === 1) {
+    formData.value.pid = 0;
+  }
+};
+const onSubmit = () => {
+  // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
+  form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
+    if (validateResult === true) {
+      await editMenu(formData.value);
+      MessagePlugin.success('修改成功');
+      return;
+    }
+    if (validateResult && Object.keys(validateResult).length) {
+      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      MessagePlugin.warning(firstError);
+    }
+  });
+};
 </script>
 <style lang="less" scoped>
 .w-p45 {

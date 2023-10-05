@@ -43,7 +43,7 @@ const selectedMenus = ref();
 const menuStore = useMenuStore();
 
 menuStore.getMenuTreeList().then(() => {
-  options.value = menuStore.menuTreeListWithBths;
+  options.value = menuStore.menuTreeList;
 });
 watch(
   () => props.visible,

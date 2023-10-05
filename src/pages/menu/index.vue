@@ -4,7 +4,7 @@
       <div class="list-tree-operator">
         <div class="t-row">
           <div class="t-col-4">
-            <t-button @click="visible = true"> 添加菜单</t-button>
+            <t-button @click="handleVisible"> 添加菜单</t-button>
           </div>
           <t-input v-model="filterText" class="t-col-8" placeholder="请输入关键词" @change="onInput">
             <template #suffix-icon>
@@ -32,7 +32,7 @@
         <edit-menu :selected-menu-data="selectedMenuData" />
       </div>
     </div>
-    <add-menu :visible="visible" @handle-visible="handleVisible" />
+    <add-menu />
   </div>
 </template>
 
@@ -68,7 +68,6 @@ const treeProps = {
 };
 const filterByText = ref();
 const filterText = ref();
-const visible = ref(false);
 
 const expanded = [];
 
@@ -82,7 +81,7 @@ const onInput = () => {
   };
 };
 const handleVisible = () => {
-  visible.value = !visible.value;
+  menuStore.setAddVisible(true);
 };
 </script>
 

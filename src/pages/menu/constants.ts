@@ -31,3 +31,6 @@ export const INITIAL_DATA = {
   isFrame: 2,
   status: 1,
 };
+
+// 0表示无上级
+export const INITIAL_TREE = [{ id: 0, title: '' }];

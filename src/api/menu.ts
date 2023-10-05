@@ -14,6 +14,13 @@ export function addMenu(data: MenuParam) {
   });
 }
 
+export function editMenu(data: MenuParam) {
+  return request.put<null>({
+    url: Api.Menu,
+    data,
+  });
+}
+
 export function getMenuTree() {
   return request.get<MenuTreeResult>({
     url: Api.MenuTree,
