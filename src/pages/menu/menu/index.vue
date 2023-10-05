@@ -13,14 +13,15 @@
           </t-input>
         </div>
         <t-tree
+          v-model:actived="activedLeaf"
           :keys="treeProps.keys"
-          :data="treeData"
+          :data="menuStore.menuTreeList"
           hover
           activable
-          expand-on-click-node
+          :expand-on-click-node="false"
           :default-expanded="expanded"
           :filter="filterByText"
-          @click="clickTree"
+          @active="selectMenu"
         />
       </div>
       <div class="list-tree-content">
@@ -44,21 +45,15 @@ export default {
 
 <script setup lang="ts">
 import { Edit2Icon, SearchIcon } from 'tdesign-icons-vue-next';
-import type { TreeNodeModel } from 'tdesign-vue-next';
+import type { TreeNodeModel, TreeNodeValue } from 'tdesign-vue-next';
 import { ref } from 'vue';
 
+import AddMenu from '@/pages/menu/menu/components/addMenu.vue';
+import EditMenu from '@/pages/menu/menu/components/editMenu.vue';
 import { useMenuStore } from '@/store';
 
-import AddMenu from './components/addMenu.vue';
-import EditMenu from './components/editMenu.vue';
-
-const selectedMenuData = ref({});
-
 const menuStore = useMenuStore();
-const treeData = ref([]);
-menuStore.getMenuTreeList().then(() => {
-  treeData.value = menuStore.menuTreeList;
-});
+menuStore.getMenuTreeList();
 const treeProps = {
   keys: {
     label: 'title',
@@ -66,20 +61,26 @@ const treeProps = {
     children: 'children',
   },
 };
+const activedLeaf = ref();
+
 const filterByText = ref();
 const filterText = ref();
 
 const expanded = [];
-
-const clickTree = (context: { node: TreeNodeModel<T>; e: MouseEvent }) => {
+const selectedMenuData = ref({});
+const selectMenu = (
+  value: Array<TreeNodeValue>,
+  context: { node: TreeNodeModel<T>; e?: MouseEvent; trigger: 'node-click' | 'setItem' },
+) => {
   selectedMenuData.value = context.node.data;
+  console.log(context.node);
 };
-
 const onInput = () => {
   filterByText.value = (node: TreeNodeModel) => {
     return node.label.indexOf(filterText.value) >= 0;
   };
 };
+
 const handleVisible = () => {
   menuStore.setAddVisible(true);
 };

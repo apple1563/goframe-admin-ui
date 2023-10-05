@@ -16,7 +16,13 @@
             </t-radio-group>
           </t-form-item>
           <t-form-item label="上级" name="pid">
-            <t-tree-select v-model="formData.pid" :data="treeData" clearable :tree-props="treeProps" @change="sss" />
+            <t-tree-select
+              v-model="formData.pid"
+              :data="menuStore.menuTreeListOnlyFolder"
+              clearable
+              :tree-props="treeProps"
+              @change="sss"
+            />
           </t-form-item>
           <t-form-item label="名称" name="title">
             <t-input v-model="formData.title" placeholder="请输入" />
@@ -111,10 +117,9 @@ import { MessagePlugin } from 'tdesign-vue-next';
 import { ref } from 'vue';
 
 import { addMenu } from '@/api/menu';
-import type { MenuItem } from '@/api/model/menuModel';
 import { useMenuStore } from '@/store';
 
-import { INITIAL_DATA, INITIAL_TREE, RULES } from '../constants';
+import { INITIAL_DATA, RULES } from '../constants';
 // eslint-disable-next-line
 const treeProps = {
   keys: {
@@ -127,11 +132,7 @@ const sss = () => {
   console.log(formData.value.pid);
 };
 const menuStore = useMenuStore();
-const treeData = ref<Array<MenuItem>>([]);
-menuStore.getMenuTreeList().then(() => {
-  treeData.value = menuStore.menuTreeListOnlyFolder.concat(INITIAL_TREE);
-});
-
+menuStore.getMenuTreeList();
 const form = ref(null);
 const formData = ref(INITIAL_DATA);
 
@@ -148,10 +149,13 @@ const setIsRoot = () => {
 };
 const onSubmit = () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
-  form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
+  form.value.validate({ showErrorMessage: true }).then((validateResult) => {
     if (validateResult === true) {
-      await addMenu(formData.value);
-      MessagePlugin.success('添加成功');
+      addMenu(formData.value).then(() => {
+        MessagePlugin.success('添加成功');
+        handleClose();
+        menuStore.getMenuTreeList();
+      });
       return;
     }
     if (validateResult && Object.keys(validateResult).length) {

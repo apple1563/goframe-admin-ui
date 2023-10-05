@@ -71,7 +71,7 @@ import { useRouter } from 'vue-router';
 
 import LogoFull from '@/assets/assets-logo-full.svg?component';
 import { prefix } from '@/config/global';
-import AddMenu from '@/pages/menu/components/addMenu.vue';
+import AddMenu from '@/pages/menu/menu/components/addMenu.vue';
 import { getActive } from '@/router';
 import { useMenuStore, useSettingStore, useUserStore } from '@/store';
 import type { MenuRoute } from '@/types/interface';

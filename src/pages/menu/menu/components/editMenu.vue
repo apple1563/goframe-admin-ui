@@ -14,7 +14,7 @@
               v-model="formData.pid"
               :disabled="formData.isRoot === 1"
               :tree-props="treeProps"
-              :data="treeData"
+              :data="menuStore.menuTreeListOnlyFolder"
             />
           </t-form-item>
         </t-form-item>
@@ -127,11 +127,9 @@ import type { MenuItem } from '@/api/model/menuModel';
 import { useMenuStore } from '@/store';
 
 // eslint-disable-next-line
-import { INITIAL_TREE, RULES } from '../constants';
+import { RULES } from '../constants';
 const props = defineProps({
-  selectedMenuData: {
-    type: Object as PropType<MenuItem>,
-  },
+  selectedMenuData: Object as PropType<MenuItem>,
 });
 const treeProps = {
   keys: {
@@ -143,10 +141,7 @@ const treeProps = {
 const form = ref(null);
 const formData = ref<MenuItem>();
 const menuStore = useMenuStore();
-const treeData = ref([]);
-menuStore.getMenuTreeList().then(() => {
-  treeData.value = menuStore.menuTreeListOnlyFolder.concat(INITIAL_TREE);
-});
+
 watch(
   () => props.selectedMenuData,
   () => {
@@ -160,10 +155,12 @@ const setIsRoot = () => {
 };
 const onSubmit = () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
-  form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
+  form.value.validate({ showErrorMessage: true }).then((validateResult) => {
     if (validateResult === true) {
-      await editMenu(formData.value);
-      MessagePlugin.success('修改成功');
+      editMenu(formData.value).then(() => {
+        MessagePlugin.success('修改成功');
+        menuStore.getMenuTreeList();
+      });
       return;
     }
     if (validateResult && Object.keys(validateResult).length) {
