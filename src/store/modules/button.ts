@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 
 import { getList } from '@/api/button';
+import type { ButtonItem } from '@/api/model/buttonModel';
+import type { Pagination } from '@/types/interface';
 
 export const useButtonStore = defineStore('button', {
   state: () => ({
@@ -16,7 +18,7 @@ export const useButtonStore = defineStore('button', {
       current: 1,
       pageSize: 20,
     },
-    formData: {
+    searchFormData: {
       name: '',
       title: '',
       menuTitle: '',
@@ -28,9 +30,9 @@ export const useButtonStore = defineStore('button', {
     async getButtonList() {
       this.dataLoading = true;
       const res = await getList({
-        name: this.formData.name,
-        title: this.formData.title,
-        menuTitle: this.formData.menuTitle,
+        name: this.searchFormData.name,
+        title: this.searchFormData.title,
+        menuTitle: this.searchFormData.menuTitle,
         page: this.pagination.current,
         size: this.pagination.pageSize,
       }).finally(() => {
@@ -47,10 +49,10 @@ export const useButtonStore = defineStore('button', {
     setEditVisible(bool: boolean) {
       this.editVisible = bool;
     },
-    setCurrentRow(v) {
+    setCurrentRow(v: ButtonItem) {
       this.currentRow = v;
     },
-    setPagination(v) {
+    setPagination(v: Pagination) {
       this.pagination = v;
     },
   },

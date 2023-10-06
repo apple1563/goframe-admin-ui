@@ -27,10 +27,13 @@ export type CommonObjType = {
   [key: string]: string | number;
 };
 
-/* export interface UserInfo {
-  name: string;
-  roles: string[];
-} */
+export interface Pagination {
+  defaultPageSize: number;
+  total: number;
+  defaultCurrentnumber;
+  currentnumber;
+  pageSize: number;
+}
 
 export interface NotificationItem {
   id: string;

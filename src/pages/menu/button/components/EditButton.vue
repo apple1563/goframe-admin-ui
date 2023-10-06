@@ -2,8 +2,8 @@
   <div>
     <t-drawer
       size="large"
-      :visible="buttonStore.addVisible"
-      header="添加按钮"
+      :visible="buttonStore.editVisible"
+      header="修改按钮"
       :on-confirm="onSubmit"
       @close="handleClose"
     >
@@ -35,18 +35,27 @@
 
 <script setup lang="ts">
 import { MessagePlugin } from 'tdesign-vue-next';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
-import { addButton } from '@/api/button';
+import { updateButton } from '@/api/button';
 import type { ButtonItem } from '@/api/model/buttonModel';
 import { useButtonStore, useMenuStore } from '@/store';
 
 import { RULES } from '../constants';
-import { findMenuTitleFromMenuId } from '../tool';
 // eslint-disable-next-line
-const form = ref(null);
-const formData = ref<ButtonItem>({});
+const buttonStore = useButtonStore();
 
+const form = ref(null);
+
+const formData = ref<ButtonItem>({});
+watch(
+  () => buttonStore.editVisible,
+  (v) => {
+    if (v) {
+      formData.value = buttonStore.currentRow;
+    }
+  },
+);
 const treeProps = {
   keys: {
     label: 'title',
@@ -57,10 +66,8 @@ const treeProps = {
 const menuStore = useMenuStore();
 menuStore.getMenuTreeList();
 
-const buttonStore = useButtonStore();
-
 const handleClose = () => {
-  buttonStore.setAddVisible(false);
+  buttonStore.setEditVisible(false);
 };
 const onReset = () => {
   form.value.reset();
@@ -69,11 +76,10 @@ const onSubmit = () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
   form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
     if (validateResult === true) {
-      await addButton({
+      await updateButton({
         ...formData.value,
-        menuTitle: findMenuTitleFromMenuId(menuStore.menuTreeList, formData.value.menuId),
       });
-      MessagePlugin.success('添加成功');
+      MessagePlugin.success('修改成功');
       buttonStore.getButtonList();
       handleClose();
       return;

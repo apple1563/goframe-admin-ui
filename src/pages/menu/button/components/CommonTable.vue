@@ -1,13 +1,13 @@
 <template>
   <div class="list-common-table">
-    <t-form ref="form" :data="buttonStore.formData" :label-width="80" colon @reset="onReset" @submit="onSubmit">
+    <t-form ref="form" :data="buttonStore.searchFormData" :label-width="80" colon @reset="onReset" @submit="onSubmit">
       <t-row>
         <t-col :span="10">
           <t-row :gutter="[24, 24]">
             <t-col :span="4">
               <t-form-item label="名称" name="title">
                 <t-input
-                  v-model="buttonStore.formData.title"
+                  v-model="buttonStore.searchFormData.title"
                   class="form-item-content"
                   type="search"
                   placeholder="请输入按钮名称"
@@ -18,7 +18,7 @@
             <t-col :span="4">
               <t-form-item label="标识符" name="name">
                 <t-input
-                  v-model="buttonStore.formData.name"
+                  v-model="buttonStore.searchFormData.name"
                   class="form-item-content"
                   type="search"
                   placeholder="请输入按钮名称"
@@ -29,7 +29,7 @@
             <t-col :span="4">
               <t-form-item label="所在菜单" name="menuTitle">
                 <t-input
-                  v-model="buttonStore.formData.menuTitle"
+                  v-model="buttonStore.searchFormData.menuTitle"
                   class="form-item-content"
                   type="search"
                   placeholder="请输入所在菜单名称"
