@@ -81,47 +81,19 @@
   </div>
 </template>
 <script setup lang="ts">
-import { MessagePlugin, PageInfo, PrimaryTableCol, TableRowData } from 'tdesign-vue-next';
+import { MessagePlugin, PageInfo, TableRowData } from 'tdesign-vue-next';
 import { computed, onMounted, ref } from 'vue';
 
 import { delButton } from '@/api/button';
 import { prefix } from '@/config/global';
 import { useButtonStore, useSettingStore } from '@/store';
 
-const buttonStore = useButtonStore();
+import { COLUMNS } from '../constants';
 
+const buttonStore = useButtonStore();
 const settingStore = useSettingStore();
 
-const COLUMNS: PrimaryTableCol[] = [
-  {
-    title: '按钮名',
-    fixed: 'left',
-    ellipsis: true,
-    align: 'left',
-    colKey: 'title',
-  },
-  {
-    title: '按钮标识',
-    ellipsis: true,
-    colKey: 'name',
-  },
-  {
-    title: '所在菜单',
-    ellipsis: true,
-    colKey: 'menuTitle',
-  },
-  {
-    title: '备注',
-    ellipsis: true,
-    colKey: 'remark',
-  },
-  {
-    align: 'left',
-    fixed: 'right',
-    colKey: 'op',
-    title: '操作',
-  },
-];
+const form = ref(null);
 
 const rowKey = 'index';
 const verticalAlign = 'top' as const;
@@ -136,7 +108,6 @@ const confirmBody = computed(() => {
   }
   return '';
 });
-
 const resetIdx = () => {
   deleteIdx.value = -1;
 };
@@ -163,6 +134,7 @@ const handleClickDelete = (slot: { row: { id: number } }) => {
   confirmVisible.value = true;
 };
 const onReset = (val: unknown) => {
+  form.value.reset();
   console.log(val);
 };
 const onSubmit = () => {

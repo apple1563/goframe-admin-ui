@@ -2,8 +2,8 @@
   <div>
     <t-drawer
       size="large"
-      :visible="roleStore.addVisible"
-      header="添加角色"
+      :visible="roleStore.editVisible"
+      header="编辑角色"
       :on-confirm="onSubmit"
       @close="handleClose"
     >
@@ -32,10 +32,10 @@
 
 <script setup lang="ts">
 import { MessagePlugin } from 'tdesign-vue-next';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 import type { RoleItem } from '@/api/model/roleModel';
-import { addRole } from '@/api/role';
+import { updateRole } from '@/api/role';
 import { useRoleStore } from '@/store';
 
 import { INITIAL_DATA, RULES } from '../constants';
@@ -43,12 +43,18 @@ import { INITIAL_DATA, RULES } from '../constants';
 const roleStore = useRoleStore();
 
 // eslint-disable-next-line
-
 const form = ref(null);
 const formData = ref<RoleItem>(INITIAL_DATA);
-
+watch(
+  () => roleStore.editVisible,
+  (v) => {
+    if (v) {
+      formData.value = roleStore.currentRow;
+    }
+  },
+);
 const handleClose = () => {
-  roleStore.setAddVisible(false);
+  roleStore.setEditVisible(false);
 };
 const onReset = () => {
   form.value.reset();
@@ -57,9 +63,9 @@ const onSubmit = () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
   form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
     if (validateResult === true) {
-      await addRole(formData.value);
-      MessagePlugin.success('添加成功');
-      roleStore.setAddVisible(false);
+      await updateRole(formData.value);
+      MessagePlugin.success('编辑成功');
+      roleStore.setEditVisible(false);
       roleStore.getRoleList();
       return;
     }

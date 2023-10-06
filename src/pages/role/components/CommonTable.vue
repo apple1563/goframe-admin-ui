@@ -1,13 +1,13 @@
 <template>
   <div class="list-common-table">
-    <t-form ref="form" :data="formData" :label-width="80" colon @reset="onReset" @submit="onSubmit">
+    <t-form ref="form" :data="roleStore.searchFormData" :label-width="80" colon @reset="onReset" @submit="onSubmit">
       <t-row>
         <t-col :span="10">
           <t-row :gutter="[24, 24]">
             <t-col :span="4">
               <t-form-item label="角色名称" name="name">
                 <t-input
-                  v-model="formData.name"
+                  v-model="roleStore.searchFormData.name"
                   class="form-item-content"
                   type="search"
                   placeholder="请输入角色名称"
@@ -30,13 +30,13 @@
 
     <div class="table-container">
       <t-table
-        :data="data"
+        :data="roleStore.roleList"
         :columns="COLUMNS"
         :row-key="rowKey"
         :vertical-align="verticalAlign"
         :hover="hover"
-        :pagination="pagination"
-        :loading="dataLoading"
+        :pagination="roleStore.pagination"
+        :loading="roleStore.dataLoading"
         :header-affixed-top="headerAffixedTop"
         @page-change="rehandlePageChange"
         @change="rehandleChange"
@@ -48,6 +48,7 @@
         <template #op="slotProps">
           <t-space>
             <t-link theme="primary" @click="rehandleClickOpMenu(slotProps)">菜单权限</t-link>
+            <t-link theme="primary" @click="rehandleClickOpButton(slotProps)">按钮权限</t-link>
             <t-link theme="primary" @click="rehandleClickOpAPI(slotProps)">API权限</t-link>
             <t-link theme="primary" @click="rehandleClickOp(slotProps)">编辑</t-link>
             <t-link theme="danger" @click="handleClickDelete(slotProps)">删除</t-link>
@@ -62,97 +63,42 @@
         @confirm="onConfirmDelete"
       />
     </div>
-    <auth-menu :visible="visible" :current-row="currentRow" @handle-visible="handleVisible" />
   </div>
 </template>
 <script setup lang="ts">
 import { MessagePlugin, PageInfo, TableRowData } from 'tdesign-vue-next';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
-import type { RoleItem } from '@/api/model/roleModel';
-import { delRole, getList } from '@/api/role';
+import { delRole } from '@/api/role';
 import { prefix } from '@/config/global';
-import AuthMenu from '@/pages/role/components/AuthMenu.vue';
 import { COLUMNS, ROLE_STATUS } from '@/pages/role/constants';
-import { useSettingStore } from '@/store';
+import { useRoleStore, useSettingStore } from '@/store';
 
-const currentRow = ref<RoleItem>();
-const visible = ref(false);
-const handleVisible = () => {
-  visible.value = !visible.value;
-};
+const form = ref(null);
+
+const roleStore = useRoleStore();
+
 const rehandleClickOpMenu = (slot: { row: { id: number } }) => {
-  currentRow.value = slot.row;
-  handleVisible();
+  roleStore.setCurrentRow(slot.row);
+  roleStore.setMenuPermissionVisible(true);
 };
 
 const rehandleClickOpAPI = (slot: { row: { id: number } }) => {
-  currentRow.value = slot.row;
+  roleStore.setCurrentRow(slot.row);
   // editRole();
 };
 
-const props = defineProps({
-  doFetch: {
-    type: Boolean,
-  },
-});
-
-watch(
-  () => props.doFetch, // 侦听props中的doFetch
-  () => {
-    fetchData().then();
-  },
-);
-
-interface FormData {
-  name: string;
-  no?: string;
-  status?: number;
-  type?: string;
-}
+const rehandleClickOpButton = (slot: { row: { id: number } }) => {
+  roleStore.setCurrentRow(slot.row);
+};
 
 const store = useSettingStore();
 
-const searchForm = {
-  name: '',
-};
-
-const formData = ref<FormData>({ ...searchForm });
 const rowKey = 'index';
 const verticalAlign = 'top' as const;
 const hover = true;
 
-const pagination = ref({
-  defaultPageSize: 20,
-  total: 100,
-  defaultCurrent: 1,
-  current: 1,
-  pageSize: 20,
-});
 const confirmVisible = ref(false);
-
-const data = ref([]);
-
-const dataLoading = ref(false);
-const fetchData = async () => {
-  dataLoading.value = true;
-  try {
-    const { list, total } = await getList({
-      name: formData.value.name,
-      page: pagination.value.current,
-      size: pagination.value.pageSize,
-    });
-    data.value = list;
-    pagination.value = {
-      ...pagination.value,
-      total,
-    };
-  } catch (e) {
-    console.log(e);
-  } finally {
-    dataLoading.value = false;
-  }
-};
 
 const deleteIdx = ref(-1);
 const confirmBody = computed(() => {
@@ -172,7 +118,7 @@ const onConfirmDelete = async () => {
   confirmVisible.value = false;
   MessagePlugin.success('删除成功');
   resetIdx();
-  fetchData();
+  roleStore.getRoleList();
 };
 
 const onCancel = () => {
@@ -180,7 +126,7 @@ const onCancel = () => {
 };
 
 onMounted(() => {
-  fetchData();
+  roleStore.getRoleList();
 });
 
 const handleClickDelete = (slot: { row: { id: number } }) => {
@@ -188,23 +134,27 @@ const handleClickDelete = (slot: { row: { id: number } }) => {
   confirmVisible.value = true;
 };
 const onReset = (val: unknown) => {
+  form.value.reset();
   console.log(val);
 };
 const onSubmit = () => {
-  fetchData();
+  roleStore.getRoleList();
 };
 const rehandlePageChange = (pageInfo: PageInfo, newDataSource: TableRowData[]) => {
   console.log('分页变化', pageInfo, newDataSource);
-  pagination.value.current = pageInfo.current;
-  pagination.value.pageSize = pageInfo.pageSize;
+  roleStore.setPagination({
+    ...roleStore.pagination,
+    current: pageInfo.current,
+    pageSize: pageInfo.pageSize,
+  });
 };
 const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);
 };
 
 const rehandleClickOp = (slot: { row: { id: number } }) => {
-  currentRow.value = slot.row;
-  editRole();
+  roleStore.setCurrentRow(slot.row);
+  roleStore.setEditVisible(true);
 };
 
 const headerAffixedTop = computed(
@@ -215,14 +165,8 @@ const headerAffixedTop = computed(
     } as any), // TO BE FIXED
 );
 
-const emit = defineEmits(['handle-visible']);
-
 const addRole = () => {
-  emit('handle-visible', 'add');
-};
-
-const editRole = () => {
-  emit('handle-visible', 'update', currentRow.value);
+  roleStore.setAddVisible(true);
 };
 </script>
 

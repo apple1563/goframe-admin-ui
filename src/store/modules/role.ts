@@ -1,14 +1,15 @@
 import { defineStore } from 'pinia';
 
-import { getList } from '@/api/button';
-import type { ButtonItem } from '@/api/model/buttonModel';
+import type { RoleItem } from '@/api/model/roleModel';
+import { getList } from '@/api/role';
 import type { Pagination } from '@/types/interface';
 
-export const useButtonStore = defineStore('button', {
+export const useRoleStore = defineStore('role', {
   state: () => ({
-    buttonList: [],
+    roleList: [],
     addVisible: false,
     editVisible: false,
+    menuPermissionVisible: false,
     currentRow: {},
     pagination: {
       defaultPageSize: 20,
@@ -19,25 +20,21 @@ export const useButtonStore = defineStore('button', {
     },
     searchFormData: {
       name: '',
-      title: '',
-      menuTitle: '',
     },
     dataLoading: false,
   }),
   getters: {},
   actions: {
-    async getButtonList() {
+    async getRoleList() {
       this.dataLoading = true;
       const res = await getList({
         name: this.searchFormData.name,
-        title: this.searchFormData.title,
-        menuTitle: this.searchFormData.menuTitle,
         page: this.pagination.current,
         size: this.pagination.pageSize,
       }).finally(() => {
         this.dataLoading = false;
       });
-      this.buttonList = res.list;
+      this.roleList = res.list;
       this.pagination.total = res.total;
       this.pagination.current = res.page;
       this.pagination.pageSize = res.size;
@@ -48,7 +45,10 @@ export const useButtonStore = defineStore('button', {
     setEditVisible(bool: boolean) {
       this.editVisible = bool;
     },
-    setCurrentRow(v: ButtonItem) {
+    setMenuPermissionVisible(bool: boolean) {
+      this.menuPermissionVisible = bool;
+    },
+    setCurrentRow(v: RoleItem) {
       this.currentRow = v;
     },
     setPagination(v: Pagination) {

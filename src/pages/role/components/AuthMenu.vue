@@ -1,6 +1,12 @@
 <template>
   <div>
-    <t-drawer size="large" :visible="visible" header="菜单权限设置" :on-confirm="onSubmit" @close="handleClose">
+    <t-drawer
+      size="large"
+      :visible="roleStore.menuPermissionVisible"
+      header="菜单权限设置"
+      :on-confirm="onSubmit"
+      @close="handleClose"
+    >
       <t-space direction="vertical" size="large" style="width: 100%">
         <t-cascader
           v-model="selectedMenus"
@@ -23,14 +29,10 @@ import { MessagePlugin } from 'tdesign-vue-next';
 import { ref, watch } from 'vue';
 
 import { getRoleMenu, setRoleMenu } from '@/api/menu';
-import type { RoleItem } from '@/api/model/roleModel';
-import { useMenuStore } from '@/store';
+import { useMenuStore, useRoleStore } from '@/store';
 // eslint-disable-next-line
-const props = defineProps<{
-  visible: boolean;
-  currentRow: RoleItem;
-}>();
 
+const roleStore = useRoleStore();
 const treeProps = {
   keys: {
     label: 'title',
@@ -46,27 +48,23 @@ menuStore.getMenuTreeList().then(() => {
   options.value = menuStore.menuTreeList;
 });
 watch(
-  () => props.visible,
-  (val) => {
-    if (val) {
-      getRoleMenu(props.currentRow.id).then((res) => {
+  () => roleStore.menuPermissionVisible,
+  (v) => {
+    if (v) {
+      getRoleMenu(roleStore.currentRow.id).then((res) => {
         selectedMenus.value = res.list;
       });
     }
   },
 );
 
-const emit = defineEmits(['handle-visible']);
-
 const handleClose = () => {
-  emit('handle-visible');
-  selectedMenus.value = [];
+  roleStore.setMenuPermissionVisible(false);
 };
-
 const onSubmit = async () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
-  await setRoleMenu(props.currentRow.id, selectedMenus.value);
+  await setRoleMenu(roleStore.currentRow.id, selectedMenus.value);
   MessagePlugin.success('设置成功').then();
-  handleClose();
+  roleStore.setMenuPermissionVisible(false);
 };
 </script>

@@ -7,6 +7,8 @@ export interface RoleParam {
 export interface RoleResult {
   list: Array<RoleItem>;
   total: number;
+  page: number;
+  size: number;
 }
 
 export interface RoleItem {
