@@ -5,16 +5,16 @@ import Layout from '@/layouts/index.vue';
 
 export default [
   {
-    path: '/user',
+    path: '/self',
     name: 'user',
     component: Layout,
-    redirect: '/user/index',
+    redirect: '/self/index',
     meta: { title: '个人页', icon: 'user-circle' },
     children: [
       {
         path: 'index',
         name: 'UserIndex',
-        component: () => import('@/pages/user/index.vue'),
+        component: () => import('@/pages/self/index.vue'),
         meta: { title: '个人中心' },
       },
     ],

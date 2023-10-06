@@ -37,7 +37,7 @@ export const useMenuStore = defineStore('menu', {
   actions: {
     async getMenuTreeList() {
       const res = await getMenuTree();
-      this.menuTreeList = res.list.concat(INITIAL_TREE);
+      this.menuTreeList = res.list.concat(INITIAL_TREE as MenuItem[]);
     },
     setAddVisible(bool: boolean) {
       this.addVisible = bool;

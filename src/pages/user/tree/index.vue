@@ -27,7 +27,7 @@ import { SearchIcon } from 'tdesign-icons-vue-next';
 import type { TreeNodeModel } from 'tdesign-vue-next';
 import { ref } from 'vue';
 
-import CommonTable from '../components/CommonTable.vue';
+import CommonTable from '../../list/components/CommonTable.vue';
 import { TREE_DATA } from './constants';
 
 const filterByText = ref();

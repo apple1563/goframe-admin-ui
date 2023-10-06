@@ -21,6 +21,13 @@ export function editMenu(data: MenuParam) {
   });
 }
 
+export function delMenu(id: number) {
+  return request.delete<null>({
+    url: Api.Menu,
+    data: { id },
+  });
+}
+
 export function getMenuTree() {
   return request.get<MenuTreeResult>({
     url: Api.MenuTree,

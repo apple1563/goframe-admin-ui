@@ -110,21 +110,28 @@
           <t-button type="button" @click="onSubmit">保存</t-button>
         </t-col>
         <t-col>
-          <t-button>删除</t-button>
+          <t-button type="button" @click="onDelete">删除</t-button>
         </t-col>
       </t-space>
     </t-space>
     <t-space v-else direction="vertical" size="large" style="width: 100%">请选择左侧菜单</t-space>
+    <t-dialog
+      v-model:visible="confirmVisible"
+      header="确认删除当前菜单？"
+      :body="confirmBody"
+      :on-cancel="onCancel"
+      @confirm="onConfirmDelete"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { MessagePlugin } from 'tdesign-vue-next';
-import { PropType, ref, watch } from 'vue';
+import { computed, PropType, ref, watch } from 'vue';
 
-import { editMenu } from '@/api/menu';
+import { delMenu, editMenu } from '@/api/menu';
 import type { MenuItem } from '@/api/model/menuModel';
-import { useMenuStore } from '@/store';
+import { getPermissionStore, useMenuStore } from '@/store';
 
 // eslint-disable-next-line
 import { RULES } from '../constants';
@@ -168,6 +175,36 @@ const onSubmit = () => {
       MessagePlugin.warning(firstError);
     }
   });
+};
+const confirmVisible = ref(false);
+
+const deleteIdx = ref(-1);
+const confirmBody = computed(() => {
+  if (deleteIdx.value > -1) {
+    return `删除后，菜单关联权限将被清空，且无法恢复`;
+  }
+  return '';
+});
+const resetIdx = () => {
+  deleteIdx.value = -1;
+};
+const onCancel = () => {
+  resetIdx();
+};
+const permissionStore = getPermissionStore();
+const onConfirmDelete = async () => {
+  await delMenu(deleteIdx.value);
+  // 真实业务请发起请求
+  confirmVisible.value = false;
+  MessagePlugin.success('删除成功');
+  resetIdx();
+  menuStore.getMenuTreeList();
+  permissionStore.buildAsyncRoutes();
+  formData.value.id = 0;
+};
+const onDelete = () => {
+  deleteIdx.value = formData.value.id;
+  confirmVisible.value = true;
 };
 </script>
 <style lang="less" scoped>

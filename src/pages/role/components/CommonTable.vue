@@ -66,14 +66,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { MessagePlugin, PageInfo, PrimaryTableCol, TableRowData } from 'tdesign-vue-next';
+import { MessagePlugin, PageInfo, TableRowData } from 'tdesign-vue-next';
 import { computed, onMounted, ref, watch } from 'vue';
 
 import type { RoleItem } from '@/api/model/roleModel';
 import { delRole, getList } from '@/api/role';
 import { prefix } from '@/config/global';
 import AuthMenu from '@/pages/role/components/AuthMenu.vue';
-import { ROLE_STATUS } from '@/pages/role/constants';
+import { COLUMNS, ROLE_STATUS } from '@/pages/role/constants';
 import { useSettingStore } from '@/store';
 
 const currentRow = ref<RoleItem>();
@@ -112,37 +112,6 @@ interface FormData {
 }
 
 const store = useSettingStore();
-
-const COLUMNS: PrimaryTableCol[] = [
-  {
-    title: '角色名',
-    fixed: 'left',
-    width: 280,
-    ellipsis: true,
-    align: 'left',
-    colKey: 'name',
-  },
-  { title: '角色状态', colKey: 'status', width: 160 },
-  {
-    title: '排序',
-    width: 160,
-    ellipsis: true,
-    colKey: 'listOrder',
-  },
-  {
-    title: '备注',
-    width: 160,
-    ellipsis: true,
-    colKey: 'remark',
-  },
-  {
-    align: 'left',
-    fixed: 'right',
-    width: 160,
-    colKey: 'op',
-    title: '操作',
-  },
-];
 
 const searchForm = {
   name: '',
