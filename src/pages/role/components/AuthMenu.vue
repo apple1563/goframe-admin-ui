@@ -65,6 +65,6 @@ const onSubmit = async () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
   await setRoleMenu(roleStore.currentRow.id, selectedMenus.value);
   MessagePlugin.success('设置成功').then();
-  roleStore.setMenuPermissionVisible(false);
+  handleClose();
 };
 </script>
