@@ -7,12 +7,21 @@
             <search-icon size="var(--td-comp-size-xxxs)" />
           </template>
         </t-input>
-        <t-tree :data="TREE_DATA" hover expand-on-click-node :default-expanded="expanded" :filter="filterByText" />
+        <t-tree
+          :keys="treeProps.keys"
+          :data="userStore.userTreeList"
+          hover
+          expand-on-click-node
+          :default-expanded="expanded"
+          :filter="filterByText"
+        />
       </div>
       <div class="list-tree-content">
         <common-table />
       </div>
     </div>
+    <add-user />
+    <edit-user />
   </div>
 </template>
 
@@ -27,13 +36,23 @@ import { SearchIcon } from 'tdesign-icons-vue-next';
 import type { TreeNodeModel } from 'tdesign-vue-next';
 import { ref } from 'vue';
 
-import CommonTable from '../../list/components/CommonTable.vue';
-import { TREE_DATA } from './constants';
+import AddUser from '@/pages/user/tree/components/AddUser.vue';
+import CommonTable from '@/pages/user/tree/components/CommonTable.vue';
+import EditUser from '@/pages/user/tree/components/EditUser.vue';
+import { useUserStore } from '@/store';
 
+const userStore = useUserStore();
+userStore.getUserTreeList();
 const filterByText = ref();
 const filterText = ref();
-
-const expanded = ['0', '0-0', '0-1', '0-2', '0-3', '0-4'];
+const treeProps = {
+  keys: {
+    label: 'username',
+    value: 'id',
+    children: 'children',
+  },
+};
+const expanded = [];
 
 const onInput = () => {
   filterByText.value = (node: TreeNodeModel) => {

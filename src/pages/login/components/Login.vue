@@ -86,9 +86,9 @@ import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useCounter } from '@/hooks';
-import { useUserStore } from '@/store';
+import { selfUserStore } from '@/store';
 
-const userStore = useUserStore();
+const userStore = selfUserStore();
 
 const INITIAL_DATA = {
   // phone: '',

@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia';
 
 import type { RoleItem } from '@/api/model/roleModel';
-import { getList } from '@/api/role';
+import { getList, getRoleListForSelect } from '@/api/role';
 import type { Pagination } from '@/types/interface';
 
 export const useRoleStore = defineStore('role', {
   state: () => ({
     roleList: [],
+    roleListForSelect: [],
     addVisible: false,
     editVisible: false,
     menuPermissionVisible: false,
@@ -38,6 +39,10 @@ export const useRoleStore = defineStore('role', {
       this.pagination.total = res.total;
       this.pagination.current = res.page;
       this.pagination.pageSize = res.size;
+    },
+    async getRoleListForSelect() {
+      const res = await getRoleListForSelect();
+      this.roleListForSelect = res.list;
     },
     setAddVisible(bool: boolean) {
       this.addVisible = bool;

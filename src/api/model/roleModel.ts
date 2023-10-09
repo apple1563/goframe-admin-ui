@@ -11,6 +11,10 @@ export interface RoleResult {
   size: number;
 }
 
+export interface RoleResultForSelect {
+  list: Array<RoleItem>;
+}
+
 export interface RoleItem {
   id: number;
   status: number;

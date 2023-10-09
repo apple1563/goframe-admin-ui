@@ -4,7 +4,7 @@
       <div class="list-tree-operator">
         <div class="t-row">
           <div class="t-col-4">
-            <t-button @click="handleVisible"> 添加菜单</t-button>
+            <t-button @click="handleVisible">添加菜单</t-button>
           </div>
           <t-input v-model="filterText" class="t-col-8" placeholder="请输入关键词" @change="onInput">
             <template #suffix-icon>

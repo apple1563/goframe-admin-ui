@@ -48,7 +48,7 @@
               <template #icon>
                 <t-icon class="header-user-avatar" name="user-circle" />
               </template>
-              <div class="header-user-account">{{ user.userInfo.name }}</div>
+              <div class="header-user-account">{{ user.selfInfo.name }}</div>
               <template #suffix><t-icon name="chevron-down" /></template>
             </t-button>
           </t-dropdown>
@@ -73,7 +73,7 @@ import LogoFull from '@/assets/assets-logo-full.svg?component';
 import { prefix } from '@/config/global';
 import AddMenu from '@/pages/menu/menu/components/addMenu.vue';
 import { getActive } from '@/router';
-import { useMenuStore, useSettingStore, useUserStore } from '@/store';
+import { selfUserStore, useMenuStore, useSettingStore } from '@/store';
 import type { MenuRoute } from '@/types/interface';
 
 import MenuContent from './MenuContent.vue';
@@ -118,7 +118,7 @@ const props = defineProps({
 
 const router = useRouter();
 const settingStore = useSettingStore();
-const user = useUserStore();
+const user = selfUserStore();
 
 const toggleSettingPanel = () => {
   settingStore.updateConfig({

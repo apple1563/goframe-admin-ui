@@ -1,8 +1,10 @@
 import type { RoleItem, RoleParam, RoleResult } from '@/api/model/roleModel';
+import { RoleResultForSelect } from '@/api/model/roleModel';
 import { request } from '@/utils/request';
 
 const Api = {
   RoleList: '/role/list',
+  RoleListForSelect: '/role/list/select',
   Role: '/role',
 };
 
@@ -33,5 +35,11 @@ export function getList(params: RoleParam) {
   return request.get<RoleResult>({
     url: Api.RoleList,
     params,
+  });
+}
+
+export function getRoleListForSelect() {
+  return request.get<RoleResultForSelect>({
+    url: Api.RoleListForSelect,
   });
 }

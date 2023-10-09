@@ -1,86 +1,50 @@
-export const TREE_DATA = [
+import { PrimaryTableCol } from 'tdesign-vue-next';
+
+export const USER_STATUS = {
+  ENABLE: 1,
+  DISABLE: 2,
+  DEAD: 3,
+};
+
+export const USER_STATUS_OPTIONS = [
+  { value: 1, label: '正常' },
+  { value: 2, label: '禁用' },
+  { value: 3, label: '注销' },
+];
+
+export const COLUMNS: PrimaryTableCol[] = [
   {
-    label: '深圳总部',
-    value: 0,
-    children: [
-      {
-        label: '总办',
-        value: '0-0',
-      },
-      {
-        label: '市场部',
-        value: '0-1',
-        children: [
-          {
-            label: '采购1组',
-            value: '0-1-0',
-          },
-          {
-            label: '采购2组',
-            value: '0-1-1',
-          },
-        ],
-      },
-      {
-        label: '技术部',
-        value: '0-2',
-      },
-    ],
+    title: '用户名',
+    fixed: 'left',
+    ellipsis: true,
+    align: 'left',
+    colKey: 'username',
+  },
+  { title: '状态', colKey: 'status' },
+  {
+    title: '角色',
+    ellipsis: true,
+    colKey: 'roleName',
   },
   {
-    label: '北京总部',
-    value: 1,
-    children: [
-      {
-        label: '总办',
-        value: '1-0',
-      },
-      {
-        label: '市场部',
-        value: '1-1',
-        children: [
-          {
-            label: '采购1组',
-            value: '1-1-0',
-          },
-          {
-            label: '采购2组',
-            value: '1-1-1',
-          },
-        ],
-      },
-    ],
+    title: '直属上级名',
+    ellipsis: true,
+    colKey: 'pUsername',
   },
   {
-    label: '上海总部',
-    value: 2,
-    children: [
-      {
-        label: '市场部',
-        value: '2-0',
-      },
-      {
-        label: '财务部',
-        value: '2-1',
-        children: [
-          {
-            label: '财务1组',
-            value: '2-1-0',
-          },
-          {
-            label: '财务2组',
-            value: '2-1-1',
-          },
-        ],
-      },
-    ],
+    title: '直属上级角色',
+    ellipsis: true,
+    colKey: 'pRoleName',
   },
   {
-    label: '湖南',
-    value: 3,
-  },
-  {
-    label: '湖北',
-    value: 4,
+    align: 'left',
+    fixed: 'right',
+    colKey: 'op',
+    title: '操作',
   },
 ];
+
+export const RULES = {
+  username: [{ required: true }],
+  password: [{ required: true }],
+};

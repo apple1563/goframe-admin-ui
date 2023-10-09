@@ -11,6 +11,7 @@ export * from './modules/menu';
 export * from './modules/notification';
 export * from './modules/permission';
 export * from './modules/role';
+export * from './modules/self';
 export * from './modules/setting';
 export * from './modules/tabs-router';
 export * from './modules/user';

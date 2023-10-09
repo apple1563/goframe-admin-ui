@@ -1,46 +1,63 @@
-import type { userItem } from '@/api/model/userModel';
+import type { UserItem, UserList, UserParam, UserTreeList } from '@/api/model/userModel';
 import { request } from '@/utils/request';
 
 const Api = {
   UserList: '/user/list',
+  UserTree: '/user/tree',
   User: '/user',
   UserInfo: '/user/info',
 };
-
-/*
-export function addRole(data: RoleItem) {
+export function addUser(data: UserItem) {
   return request.post<null>({
-    url: Api.Role,
+    url: Api.User,
     data,
   });
 }
 
-export function updateRole(data: RoleItem) {
+export function updateUser(data: UserItem) {
   return request.put<null>({
-    url: Api.Role,
+    url: Api.User,
     data,
   });
 }
 
-export function delRole(id: number) {
+export function delUser(id: number) {
   return request.delete<null>({
-    url: Api.Role,
+    url: Api.User,
     data: {
       id,
     },
   });
 }
 
-export function getList(params: RoleParam) {
-  return request.get<RoleResult>({
-    url: Api.RoleList,
+export function getList(params: UserParam) {
+  return request.get<UserList>({
+    url: Api.UserList,
     params,
   });
 }
-*/
 
 export function getUserInfo() {
-  return request.get<userItem>({
+  return request.get<UserItem>({
     url: Api.UserInfo,
   });
 }
+
+export function getTreeList() {
+  return request.get<UserTreeList>({
+    url: Api.UserTree,
+  });
+}
+/* Nickname    string      `json:"nickname"    description:""`
+    Email       string      `json:"email"       description:""`
+    Phone       string      `json:"phone"       description:""`
+    Status      int         `json:"status"      description:"1正常2禁用"`
+    ClientAgent string      `json:"clientAgent" description:"注册clientAgen头"`
+    Ip          string      `json:"ip"          description:"IP"`
+    RoleId      int         `json:"roleId"      description:"1用户2代理3管理"`
+    CreatedAt   *gtime.Time `json:"createdAt"   description:""`
+    UpdatedAt   *gtime.Time `json:"updatedAt"   description:""`
+    PRoleId     int         `json:"pRoleId"     description:""`
+    Pid         int         `json:"pid"         description:""`
+    PUsername   string      `json:"pUsername"   description:""`
+    RoleName    string      `json:"roleName"    description:""` */
