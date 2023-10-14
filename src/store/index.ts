@@ -7,6 +7,7 @@ store.use(createPersistedState());
 export { store };
 
 export * from './modules/button';
+export * from './modules/dict';
 export * from './modules/menu';
 export * from './modules/notification';
 export * from './modules/permission';

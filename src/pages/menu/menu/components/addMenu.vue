@@ -34,7 +34,7 @@
             <t-input v-model="formData.path" placeholder="请输入path" />
           </t-form-item>
           <t-form-item label="路由别名" name="name">
-            <t-input v-model="formData.name" placeholder="请输入" />
+            <t-input v-model="formData.name" placeholder="请输入name" />
           </t-form-item>
           <t-form-item label="组件路径" name="component">
             <t-input
@@ -135,6 +135,7 @@ const formData = ref(INITIAL_DATA);
 
 const handleClose = () => {
   menuStore.setAddVisible(false);
+  onReset();
 };
 const onReset = () => {
   form.value.reset();
