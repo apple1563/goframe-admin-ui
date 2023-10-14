@@ -1,7 +1,8 @@
 export interface DictParam {
   configType?: string;
   configName?: string;
-  remark?: string;
+  createBy?: string;
+  updateBy?: string;
   configKey: string;
   configValue: string;
   page: number;

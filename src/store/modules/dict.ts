@@ -23,6 +23,7 @@ export const useDictStore = defineStore('dict', {
       configName: '',
       configType: '',
       createBy: '',
+      updateBy: '',
     },
     dataLoading: false,
   }),
@@ -36,6 +37,7 @@ export const useDictStore = defineStore('dict', {
         configName: this.searchFormData.configName,
         configType: this.searchFormData.configType,
         createBy: this.searchFormData.createBy,
+        updateBy: this.searchFormData.updateBy,
         page: this.pagination.current,
         size: this.pagination.pageSize,
       }).finally(() => {
