@@ -304,7 +304,7 @@ export default [
                   component: 'IFrame',
                   meta: {
                     frameSrc: 'https://tdesign.tencent.com/vue-next/getting-started',
-                    frameBlank: true,
+                    isFrame: true,
                     title: 'TDesign 文档（外链）',
                   },
                 },

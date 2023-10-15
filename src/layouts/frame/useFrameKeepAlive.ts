@@ -27,8 +27,8 @@ export function useFrameKeepAlive() {
   function getAllFramePages(routes: MenuRoute[]): MenuRoute[] {
     let res: MenuRoute[] = [];
     for (const route of routes) {
-      const { meta: { frameSrc, frameBlank } = {}, children } = route;
-      if (frameSrc && !frameBlank) {
+      const { meta: { frameSrc, isFrame } = {}, children } = route;
+      if (frameSrc && !isFrame) {
         res.push(route);
       }
       if (children && children.length) {

@@ -28,5 +28,6 @@ export interface RouteMeta {
   single?: boolean;
   keepAlive?: boolean;
   frameSrc?: string;
-  frameBlank?: boolean;
+  isFrame?: boolean;
+  affix?: boolean;
 }

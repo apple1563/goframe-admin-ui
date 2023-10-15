@@ -45,9 +45,9 @@
           <t-form-item v-if="formData.type === 1" label="默认跳转" name="redirect">
             <t-input v-model="formData.redirect" placeholder="请输入redirect" />
           </t-form-item>
-          <t-form-item label="高亮路由" name="activeMenu">
+          <!--          <t-form-item label="高亮路由" name="activeMenu">
             <t-input v-model="formData.activeMenu" placeholder="请输入activeMenu" />
-          </t-form-item>
+          </t-form-item>-->
           <t-form-item label="菜单排序" name="sort">
             <t-input-number v-model="formData.sort" placeholder="请输入" />
           </t-form-item>
