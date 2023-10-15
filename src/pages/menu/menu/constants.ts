@@ -25,7 +25,7 @@ export const INITIAL_DATA = {
   frameSrc: '',
   isRoot: 2,
   affix: 2,
-  alwaysShow: 2,
+  alwaysShow: 1,
   keepAlive: 2,
   hidden: 2,
   isFrame: 2,

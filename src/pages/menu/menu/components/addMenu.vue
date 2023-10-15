@@ -36,11 +36,18 @@
           <t-form-item label="路由别名" name="name">
             <t-input v-model="formData.name" placeholder="请输入name" />
           </t-form-item>
-          <t-form-item label="组件路径" name="component">
+          <t-form-item
+            label="组件路径"
+            name="component"
+            tips="主目录填 `Layout`;iframe填 `iframe`;页面填组件路径，如：`/system/menu/menu`;BLANK填 `BLANK`;"
+          >
             <t-input
-              v-model="formData.component"
-              placeholder="主目录填 `Layout`;多级父目录填 `ParentLayout`;页面填具体的组件路径，如：`/system/menu/menu`"
+              v-model.trim="formData.component"
+              placeholder="主目录填 `Layout`;iframe填 `iframe`;页面填组件路径，如：`/system/menu/menu`;BLANK填 `BLANK`;"
             />
+          </t-form-item>
+          <t-form-item v-if="formData.component.toUpperCase() === 'IFRAME'" :label="'iframe地址'" name="frameSrc">
+            <t-input v-model="formData.frameSrc" placeholder="请输入" />
           </t-form-item>
           <t-form-item v-if="formData.type === 1" label="默认跳转" name="redirect">
             <t-input v-model="formData.redirect" placeholder="请输入redirect" />
@@ -82,13 +89,13 @@
             </t-form-item>
           </t-form-item>
           <t-form-item :label-width="0">
-            <t-form-item label="是否外链" name="isFrame">
+            <t-form-item label="是否跳转" name="isFrame">
               <t-radio-group v-model="formData.isFrame">
                 <t-radio-button :value="1">启用</t-radio-button>
                 <t-radio-button :value="2">禁用</t-radio-button>
               </t-radio-group>
             </t-form-item>
-            <t-form-item v-if="formData.isFrame === 1" label="外链地址" name="frameSrc">
+            <t-form-item v-if="formData.isFrame === 1" label="跳转地址" name="frameSrc">
               <t-input v-model="formData.frameSrc" placeholder="请输入" />
             </t-form-item>
           </t-form-item>
@@ -131,11 +138,12 @@ const treeProps = {
 const menuStore = useMenuStore();
 menuStore.getMenuTreeList();
 const form = ref(null);
-const formData = ref(INITIAL_DATA);
+const formData = ref({ ...INITIAL_DATA });
 
 const handleClose = () => {
   menuStore.setAddVisible(false);
   onReset();
+  formData.value = { ...INITIAL_DATA };
 };
 const onReset = () => {
   form.value.reset();

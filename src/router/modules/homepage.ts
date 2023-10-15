@@ -33,34 +33,4 @@ export default [
       },
     ],
   },
-  /* {
-    path: '/menu', // 开发时候用的，后面改成从后端获取
-    name: 'menu',
-    component: Layout,
-    redirect: '/menu/index',
-    meta: { title: '菜单管理', icon: 'menu-fold' },
-    children: [
-      {
-        path: 'index',
-        name: 'MenuIndex',
-        component: () => import('@/pages/menu/index.vue'),
-        meta: { title: '菜单管理' },
-      },
-    ],
-  }, */
-  {
-    path: '/role', // 开发时候用的，后面改成从后端获取
-    name: 'role',
-    component: Layout,
-    redirect: '/role/index',
-    meta: { title: '角色管理', icon: 'usergroup' },
-    children: [
-      {
-        path: 'index',
-        name: 'RoleIndex',
-        component: () => import('@/pages/role/index.vue'),
-        meta: { title: '角色管理' },
-      },
-    ],
-  },
 ];

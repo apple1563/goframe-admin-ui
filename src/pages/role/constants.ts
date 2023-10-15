@@ -21,7 +21,7 @@ export const COLUMNS: PrimaryTableCol[] = [
     align: 'left',
     colKey: 'name',
   },
-  { title: '角色状态', colKey: 'status', width: 160 },
+  { title: '角色状态', colKey: 'status' },
   {
     title: '排序',
     ellipsis: true,
@@ -37,5 +37,6 @@ export const COLUMNS: PrimaryTableCol[] = [
     fixed: 'right',
     colKey: 'op',
     title: '操作',
+    width: '320px',
   },
 ];
