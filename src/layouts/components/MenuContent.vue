@@ -47,6 +47,7 @@ const list = computed(() => {
 });
 
 const menuIcon = (item: ListItemType) => {
+  if (!item.icon) return '';
   if (typeof item.icon === 'string') return <t-icon name={item.icon} />;
   const RenderIcon = item.icon;
   return RenderIcon;
