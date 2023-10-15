@@ -90,6 +90,7 @@ const rehandleClickOpAPI = (slot: { row: { id: number } }) => {
 
 const rehandleClickOpButton = (slot: { row: { id: number } }) => {
   roleStore.setCurrentRow(slot.row);
+  roleStore.setButtonPermissionVisible(true);
 };
 
 const store = useSettingStore();

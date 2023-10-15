@@ -52,7 +52,7 @@ export const useButtonStore = defineStore('button', {
       this.currentRow = v;
     },
     setPagination(v: Pagination) {
-      this.pagination = v;
+      this.pagination = Object.assign(this.pagination, v);
     },
   },
   persist: true,

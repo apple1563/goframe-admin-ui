@@ -1,6 +1,6 @@
 <template>
   <div>
-    <t-drawer
+    <t-dialog
       size="large"
       :visible="roleStore.menuPermissionVisible"
       header="菜单权限设置"
@@ -20,7 +20,7 @@
         >
         </t-cascader>
       </t-space>
-    </t-drawer>
+    </t-dialog>
   </div>
 </template>
 

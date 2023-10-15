@@ -4,6 +4,7 @@ import { request } from '@/utils/request';
 const Api = {
   ButtonList: '/button/list',
   Button: '/button',
+  roleButton: '/button/role',
 };
 
 export function addButton(data: ButtonItem) {
@@ -33,5 +34,24 @@ export function getList(params: ButtonParam) {
   return request.get<ButtonResult>({
     url: Api.ButtonList,
     params,
+  });
+}
+
+export function setRoleButton(roleId: number, buttonIds: Array<number>) {
+  return request.post<null>({
+    url: Api.roleButton,
+    data: {
+      roleId,
+      buttonIds,
+    },
+  });
+}
+
+export function getRoleButton(roleId: number) {
+  return request.get<null>({
+    url: Api.roleButton,
+    params: {
+      roleId,
+    },
   });
 }
