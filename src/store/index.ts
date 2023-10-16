@@ -6,6 +6,7 @@ store.use(createPersistedState());
 
 export { store };
 
+export * from './modules/api';
 export * from './modules/button';
 export * from './modules/dict';
 export * from './modules/menu';
