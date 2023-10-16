@@ -16,7 +16,7 @@
             <t-input v-model="formData.configName" placeholder="请输入" />
           </t-form-item>
           <t-form-item label="字典key" name="configKey">
-            <t-input v-model="formData.configKey" placeholder="请输入" />
+            <t-input v-model="formData.configKey" disabled placeholder="请输入" />
           </t-form-item>
           <t-form-item label="字典value" name="configValue">
             <t-input v-model="formData.configValue" placeholder="请输入" />

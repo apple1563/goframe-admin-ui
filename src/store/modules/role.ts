@@ -12,6 +12,7 @@ export const useRoleStore = defineStore('role', {
     editVisible: false,
     menuPermissionVisible: false,
     buttonPermissionVisible: false,
+    apiPermissionVisible: false,
     currentRow: {},
     pagination: {
       defaultPageSize: 20,
@@ -56,6 +57,9 @@ export const useRoleStore = defineStore('role', {
     },
     setButtonPermissionVisible(bool: boolean) {
       this.buttonPermissionVisible = bool;
+    },
+    setApiPermissionVisible(bool: boolean) {
+      this.apiPermissionVisible = bool;
     },
     setCurrentRow(v: RoleItem) {
       this.currentRow = v;

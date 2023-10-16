@@ -2,15 +2,16 @@
   <div>
     <t-dialog
       size="large"
-      :visible="roleStore.buttonPermissionVisible"
-      header="按钮权限设置"
+      :visible="roleStore.apiPermissionVisible"
+      header="API权限设置"
       :on-confirm="onSubmit"
       @close="handleClose"
     >
       <t-space direction="vertical" size="large" style="width: 100%">
         <t-select
           v-model="selecteds"
-          :min-collapsed-num="5"
+          :min-collapsed-num="2"
+          :options="options"
           multiple
           placeholder="-请选择-"
           :filter="filterMethod"
@@ -18,9 +19,6 @@
           @blur="handleBlur"
           @change="handleChange"
         >
-          <t-option v-for="item in options" :key="item.id" :value="item.id" :label="item.title">
-            <div>{{ item.menuTitle }}-{{ item.title }}</div>
-          </t-option>
         </t-select>
       </t-space>
     </t-dialog>
@@ -31,36 +29,48 @@
 import { MessagePlugin } from 'tdesign-vue-next';
 import { ref, watch } from 'vue';
 
-import { getRoleButton, setRoleButton } from '@/api/button';
-import type { ButtonItem } from '@/api/model/buttonModel';
-import { useButtonStore, useRoleStore } from '@/store';
+import { getRoleApi, setRoleApi } from '@/api/api';
+// import type { ApiItem } from '@/api/model/apiModel';
+import { listToGroup } from '@/pages/role/tool';
+import { useApiStore, useRoleStore } from '@/store';
 // eslint-disable-next-line
 const roleStore = useRoleStore();
-const buttonStore = useButtonStore();
+const apiStore = useApiStore();
 // const keys = { label: 'title', value: 'id' };
-const options = ref<Array<ButtonItem>>([]);
+const options = ref([]);
 const selecteds = ref();
-buttonStore.setPagination({ pageSize: 9999 });
-buttonStore.getButtonList().then(() => {
-  options.value = buttonStore.buttonList;
+apiStore.setPagination({ pageSize: 9999 });
+apiStore.getApiList().then(() => {
+  options.value = listToGroup(apiStore.apiList);
 });
+
 watch(
-  () => roleStore.buttonPermissionVisible,
+  () => roleStore.apiPermissionVisible,
   (v) => {
     if (v) {
-      getRoleButton(roleStore.currentRow.id).then((res) => {
-        selecteds.value = res.list;
+      getRoleApi(roleStore.currentRow.id).then((res) => {
+        console.log(res, 555555);
+        selecteds.value = res.list.map((o) => `${o.url}-${o.method}`);
       });
     }
   },
 );
 
 const handleClose = () => {
-  roleStore.setButtonPermissionVisible(false);
+  roleStore.setApiPermissionVisible(false);
 };
 const onSubmit = async () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
-  await setRoleButton(roleStore.currentRow.id, selecteds.value);
+  await setRoleApi(
+    roleStore.currentRow.id,
+    selecteds.value.map((o) => {
+      const arr = o.split('-');
+      return {
+        url: arr[0],
+        method: arr[1],
+      };
+    }),
+  );
   MessagePlugin.success('设置成功').then();
   handleClose();
 };

@@ -92,6 +92,7 @@ import { COLUMNS } from '../constants';
 
 const buttonStore = useButtonStore();
 const settingStore = useSettingStore();
+buttonStore.setPagination({ pageSize: 20 });
 
 const form = ref(null);
 

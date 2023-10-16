@@ -85,7 +85,7 @@ const rehandleClickOpMenu = (slot: { row: { id: number } }) => {
 
 const rehandleClickOpAPI = (slot: { row: { id: number } }) => {
   roleStore.setCurrentRow(slot.row);
-  // editRole();
+  roleStore.setApiPermissionVisible(true);
 };
 
 const rehandleClickOpButton = (slot: { row: { id: number } }) => {

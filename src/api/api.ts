@@ -37,12 +37,12 @@ export function getList(params: ApiParam) {
   });
 }
 
-export function setRoleApi(roleId: number, apiIds: Array<number>) {
+export function setRoleApi(roleId: number, apis: Array<ApiItem>) {
   return request.post<null>({
     url: Api.roleApi,
     data: {
       roleId,
-      apiIds,
+      apis,
     },
   });
 }

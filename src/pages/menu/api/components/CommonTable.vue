@@ -92,6 +92,7 @@ import { COLUMNS } from '../constants';
 
 const apiStore = useApiStore();
 const settingStore = useSettingStore();
+apiStore.setPagination({ pageSize: 20 });
 
 const form = ref(null);
 
