@@ -39,7 +39,7 @@ const apiStore = useApiStore();
 // const keys = { label: 'title', value: 'id' };
 const options = ref([]);
 const selecteds = ref();
-apiStore.setPagination({ pageSize: 9999 });
+apiStore.setPagination({ current: 1, pageSize: 9999 });
 apiStore.getApiList().then(() => {
   options.value = listToGroup(apiStore.apiList);
 });

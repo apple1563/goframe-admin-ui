@@ -40,7 +40,7 @@ const buttonStore = useButtonStore();
 // const keys = { label: 'title', value: 'id' };
 const options = ref<Array<ButtonItem>>([]);
 const selecteds = ref();
-buttonStore.setPagination({ pageSize: 9999 });
+buttonStore.setPagination({ current: 1, pageSize: 9999 });
 buttonStore.getButtonList().then(() => {
   options.value = buttonStore.buttonList;
 });

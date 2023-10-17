@@ -135,7 +135,7 @@ const confirmVisible = ref(false);
 const deleteIdx = ref(-1);
 const confirmBody = computed(() => {
   if (deleteIdx.value > -1) {
-    return `删除后，用户关联信息也会被删除，且无法恢复`;
+    return `注销后，账号将无法使用`;
   }
   return '';
 });
@@ -147,7 +147,7 @@ const resetIdx = () => {
 const onConfirmDelete = async () => {
   await delUser(deleteIdx.value);
   confirmVisible.value = false;
-  MessagePlugin.success('删除成功');
+  MessagePlugin.success('注销成功');
   resetIdx();
   userStore.getUserList();
   userStore.getUserTreeList();
@@ -174,6 +174,7 @@ const rehandlePageChange = (pageInfo: PageInfo, newDataSource: TableRowData[]) =
     current: pageInfo.current,
     pageSize: pageInfo.pageSize,
   });
+  onSubmit();
 };
 const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);

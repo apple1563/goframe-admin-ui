@@ -41,11 +41,19 @@
         </t-col>
 
         <t-col :span="2" class="operation-container">
-          <t-button theme="primary" type="button" :style="{ marginLeft: 'var(--td-comp-margin-s)' }" @click="addButton">
+          <t-button
+            v-auth-button="4"
+            theme="primary"
+            type="button"
+            :style="{ marginLeft: 'var(--td-comp-margin-s)' }"
+            @click="addButton"
+          >
             添加
           </t-button>
-          <t-button theme="primary" type="submit" :style="{ marginLeft: 'var(--td-comp-margin-s)' }"> 查询 </t-button>
-          <t-button type="reset" variant="base" theme="default"> 重置 </t-button>
+          <t-button v-auth-button="5" theme="primary" type="submit" :style="{ marginLeft: 'var(--td-comp-margin-s)' }">
+            查询
+          </t-button>
+          <t-button v-auth-button="6" type="reset" variant="base" theme="default"> 重置 </t-button>
         </t-col>
       </t-row>
     </t-form>
@@ -65,8 +73,8 @@
       >
         <template #op="slotProps">
           <t-space>
-            <t-link theme="primary" @click="rehandleClickOp(slotProps)">编辑</t-link>
-            <t-link theme="danger" @click="handleClickDelete(slotProps)">删除</t-link>
+            <t-link v-auth-button="8" theme="primary" @click="rehandleClickOp(slotProps)">编辑</t-link>
+            <t-link v-auth-button="9" theme="danger" @click="handleClickDelete(slotProps)">删除</t-link>
           </t-space>
         </template>
       </t-table>
@@ -147,6 +155,7 @@ const rehandlePageChange = (pageInfo: PageInfo, newDataSource: TableRowData[]) =
     current: pageInfo.current,
     pageSize: pageInfo.pageSize,
   });
+  onSubmit();
 };
 const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);

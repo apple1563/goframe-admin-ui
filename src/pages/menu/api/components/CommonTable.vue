@@ -92,7 +92,7 @@ import { COLUMNS } from '../constants';
 
 const apiStore = useApiStore();
 const settingStore = useSettingStore();
-apiStore.setPagination({ pageSize: 20 });
+apiStore.setPagination({ current: 1, pageSize: 20 });
 
 const form = ref(null);
 
@@ -147,6 +147,7 @@ const rehandlePageChange = (pageInfo: PageInfo, newDataSource: TableRowData[]) =
     current: pageInfo.current,
     pageSize: pageInfo.pageSize,
   });
+  onSubmit();
 };
 const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);

@@ -18,6 +18,13 @@ export const INITIAL_DATA = {
 
 export const COLUMNS: PrimaryTableCol[] = [
   {
+    title: 'id',
+    fixed: 'left',
+    ellipsis: true,
+    align: 'left',
+    colKey: 'id',
+  },
+  {
     title: '按钮名',
     fixed: 'left',
     ellipsis: true,

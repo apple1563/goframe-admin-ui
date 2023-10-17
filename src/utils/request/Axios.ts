@@ -11,6 +11,7 @@ import debounce from 'lodash/debounce';
 import isFunction from 'lodash/isFunction';
 import throttle from 'lodash/throttle';
 import { stringify } from 'qs';
+import { MessagePlugin } from 'tdesign-vue-next';
 
 import { ContentTypeEnum } from '@/constants';
 import { AxiosRequestConfigRetry, RequestOptions, Result } from '@/types/axios';
@@ -284,6 +285,7 @@ export class VAxios {
             return;
           }
           if (axios.isAxiosError(e)) {
+            MessagePlugin.error(e.message);
             // 在这里重写Axios的错误信息
           }
           reject(e);

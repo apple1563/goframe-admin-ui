@@ -45,15 +45,15 @@ const transform: AxiosTransform = {
     }
 
     //  这里 code为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, message } = data;
-
+    const { code, message, msg } = data;
+    const errMsg = message || msg;
     // 这里逻辑可以根据项目进行修改
     const hasSuccess = data && code === 0;
     if (hasSuccess) {
       return data.data;
     }
-    MessagePlugin.error(message);
-    throw new Error(`请求接口错误, 错误码: ${code}，信息：${message}`);
+    MessagePlugin.error(errMsg);
+    throw new Error(`请求接口错误, 错误码: ${code}，信息：${errMsg}`);
   },
 
   // 请求前处理配置

@@ -92,7 +92,7 @@ const userStore = selfUserStore();
 
 const INITIAL_DATA = {
   // phone: '',
-  account: 'admin',
+  account: 'root',
   password: '1',
   // verifyCode: '',
   checked: false,
@@ -133,17 +133,11 @@ const sendCode = () => {
 
 const onSubmit = async (ctx: SubmitContext) => {
   if (ctx.validateResult === true) {
-    try {
-      await userStore.login(formData.value);
-
-      MessagePlugin.success('登录成功');
-      const redirect = route.query.redirect as string;
-      const redirectUrl = redirect ? decodeURIComponent(redirect) : '/dashboard';
-      router.push(redirectUrl);
-    } catch (e) {
-      console.log(e);
-      MessagePlugin.error(e.message);
-    }
+    await userStore.login(formData.value);
+    MessagePlugin.success('登录成功');
+    const redirect = route.query.redirect as string;
+    const redirectUrl = redirect ? decodeURIComponent(redirect) : '/dashboard';
+    router.push(redirectUrl);
   }
 };
 </script>

@@ -31,3 +31,6 @@ export interface RouteMeta {
   isFrame?: boolean;
   affix?: boolean;
 }
+export interface ButtonWhiteListResult {
+  list: Array<number>;
+}

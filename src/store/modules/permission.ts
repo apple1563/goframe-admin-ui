@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { RouteRecordRaw } from 'vue-router';
 
 import { RouteItem } from '@/api/model/permissionModel';
-import { getMenuList } from '@/api/permission';
+import { getButtonWhitelist, getMenuList } from '@/api/permission';
 import router, { fixedRouterList, homepageRouterList } from '@/router';
 import { store } from '@/store';
 import { transformObjectToRoute } from '@/utils/route';
@@ -13,6 +13,7 @@ export const usePermissionStore = defineStore('permission', {
     routers: [],
     removeRoutes: [],
     asyncRoutes: [],
+    asyncButtons: [], // 按钮权限列表
   }),
   actions: {
     async initRoutes() {
@@ -46,6 +47,14 @@ export const usePermissionStore = defineStore('permission', {
         }
       });
       this.asyncRoutes = [];
+    },
+    async initButtons() {
+      try {
+        // 发起按钮权限请求 获取按钮id列表
+        this.asyncButtons = (await getButtonWhitelist()).list;
+      } catch (error) {
+        throw new Error("Can't getButtonWhitelist");
+      }
     },
   },
 });

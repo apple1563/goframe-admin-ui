@@ -179,6 +179,7 @@ const rehandlePageChange = (pageInfo: PageInfo, newDataSource: TableRowData[]) =
     current: pageInfo.current,
     pageSize: pageInfo.pageSize,
   });
+  onSubmit();
 };
 const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);

@@ -20,14 +20,15 @@ export const selfUserStore = defineStore('self', {
         password: loginInfo.password,
       });
       this.token = res.token;
+      const permissionStore = usePermissionStore();
+      permissionStore.initButtons();
     },
     async getUserInfo() {
       const res = await getUserInfo();
       this.selfInfo = res;
     },
     async logout() {
-      const res = await Logout();
-      console.log(res);
+      await Logout();
       this.token = '';
       this.selfInfo = { ...InitUserInfo };
     },
@@ -36,6 +37,7 @@ export const selfUserStore = defineStore('self', {
     afterRestore: () => {
       const permissionStore = usePermissionStore();
       permissionStore.initRoutes();
+      permissionStore.initButtons();
     },
     key: 'user',
     paths: ['token'],
