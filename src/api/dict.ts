@@ -4,6 +4,7 @@ import { request } from '@/utils/request';
 const Api = {
   DictList: '/dict/list',
   Dict: '/dict',
+  DictListType: '/dict/list/type',
 };
 
 export function addDict(data: DictItem) {
@@ -32,6 +33,13 @@ export function delDict(id: number) {
 export function getList(params: DictParam) {
   return request.get<DictResult>({
     url: Api.DictList,
+    params,
+  });
+}
+
+export function getListType(params: DictParam) {
+  return request.get<DictResult>({
+    url: Api.DictListType,
     params,
   });
 }

@@ -3,7 +3,6 @@ export interface LogParam {
   ip?: string;
   timeBetween?: Array<string>;
 }
-
 export interface LoginLogResult {
   list: Array<LoginLogItem>;
   total: number;
