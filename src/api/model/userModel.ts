@@ -45,3 +45,9 @@ export interface UserTree extends UserItem {
 export interface UserTreeList {
   list: UserTree[];
 }
+
+export interface PassWordFormType {
+  password: string;
+  passwordNew: string;
+  passwordNewAgain?: string;
+}

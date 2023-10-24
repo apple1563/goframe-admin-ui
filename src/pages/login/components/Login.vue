@@ -1,5 +1,6 @@
 <template>
   <t-form
+    v-if="!selfStore.isOpened"
     ref="form"
     :class="['item-container', `login-${type}`]"
     :data="formData"
@@ -9,7 +10,7 @@
   >
     <template v-if="type == 'password'">
       <t-form-item name="account">
-        <t-input v-model="formData.account" size="large" placeholder="请输入账号：admin">
+        <t-input v-model="formData.account" size="large" placeholder="请输入账号：">
           <template #prefix-icon>
             <t-icon name="user" />
           </template>
@@ -22,7 +23,7 @@
           size="large"
           :type="showPsw ? 'text' : 'password'"
           clearable
-          placeholder="请输入登录密码：admin"
+          placeholder="请输入登录密码："
         >
           <template #prefix-icon>
             <t-icon name="lock-on" />
@@ -76,6 +77,18 @@
       <span v-if="type !== 'phone'" class="tip" @click="switchType('phone')">使用手机号登录</span>-->
     </div>
   </t-form>
+  <t-form v-if="selfStore.isOpened" :class="['item-container', `login-${type}`]" label-width="0">
+    <t-form-item tips="打开Google Authenticator获取验证码输入">
+      <t-input v-model="otpCode" size="large" placeholder="请输入谷歌验证码：">
+        <template #prefix-icon>
+          <t-icon name="lock-on" />
+        </template>
+      </t-input>
+    </t-form-item>
+    <t-form-item class="btn-container">
+      <t-button block size="large" type="button" @click="auth2Step"> 登录 </t-button>
+    </t-form-item>
+  </t-form>
 </template>
 
 <script setup lang="ts">
@@ -86,9 +99,9 @@ import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useCounter } from '@/hooks';
-import { selfUserStore } from '@/store';
+import { useSelfStore } from '@/store';
 
-const userStore = selfUserStore();
+const selfStore = useSelfStore();
 
 const INITIAL_DATA = {
   // phone: '',
@@ -105,6 +118,7 @@ const FORM_RULES: Record<string, FormRule[]> = {
   // verifyCode: [{ required: true, message: '验证码必填', type: 'error' }],
 };
 
+const otpCode = ref('');
 const type = ref('password');
 
 const form = ref<FormInstanceFunctions>();
@@ -133,12 +147,24 @@ const sendCode = () => {
 
 const onSubmit = async (ctx: SubmitContext) => {
   if (ctx.validateResult === true) {
-    await userStore.login(formData.value);
-    MessagePlugin.success('登录成功');
-    const redirect = route.query.redirect as string;
-    const redirectUrl = redirect ? decodeURIComponent(redirect) : '/dashboard';
-    router.push(redirectUrl);
+    await selfStore.login(formData.value);
+    if (!selfStore.isOpened) {
+      jump();
+    }
   }
+};
+function jump() {
+  MessagePlugin.success('登录成功');
+  const redirect = route.query.redirect as string;
+  const redirectUrl = redirect ? decodeURIComponent(redirect) : '/dashboard';
+  router.push(redirectUrl);
+}
+const auth2Step = async () => {
+  await selfStore.login2step({
+    username: formData.value.account,
+    code: otpCode.value,
+  });
+  jump();
 };
 </script>
 

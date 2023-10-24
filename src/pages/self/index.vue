@@ -6,7 +6,7 @@
           Hi，Image
           <span class="regular"> 下午好，今天是你加入鹅厂的第 100 天～</span>
         </div>
-        <img src="@/assets/assets-tencent-logo.png" class="logo" />
+        <img src="../../assets/assets-tencent-logo.png" class="logo" />
       </div>
 
       <t-card class="user-info-list" title="个人信息" :bordered="false">
@@ -184,5 +184,5 @@ watch(
 </script>
 
 <style lang="less" scoped>
-@import './index.less';
+@import 'index.less';
 </style>

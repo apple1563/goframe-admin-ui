@@ -47,7 +47,13 @@ export const useFileStore = defineStore('file', {
     },
     async getFileTypeList() {
       const res = await getListType({ configType: 'upload_driver' });
-      this.fileTypeList = res.list;
+      // this.fileTypeList = res.list;
+      this.fileTypeList = res.list.map((v) => {
+        if (v.configKey === 'ucloud') {
+          v.disabled = true;
+        }
+        return v;
+      });
     },
     setAddVisible(bool: boolean) {
       this.addVisible = bool;

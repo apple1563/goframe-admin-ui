@@ -6,7 +6,7 @@ import Layout from '@/layouts/index.vue';
 export default [
   {
     path: '/self',
-    name: 'user',
+    name: 'self',
     component: Layout,
     redirect: '/self/index',
     meta: { title: '个人页', icon: 'user-circle' },

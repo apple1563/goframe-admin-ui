@@ -1,4 +1,4 @@
-import type { UserItem, UserList, UserParam, UserTreeList } from '@/api/model/userModel';
+import type { PassWordFormType, UserItem, UserList, UserParam, UserTreeList } from '@/api/model/userModel';
 import { request } from '@/utils/request';
 
 const Api = {
@@ -6,6 +6,7 @@ const Api = {
   UserTree: '/user/tree',
   User: '/user',
   UserInfo: '/user/info',
+  UserPassword: '/user/password',
 };
 export function addUser(data: UserItem) {
   return request.post<null>({
@@ -17,6 +18,13 @@ export function addUser(data: UserItem) {
 export function updateUser(data: UserItem) {
   return request.put<null>({
     url: Api.User,
+    data,
+  });
+}
+
+export function updateUserPassword(data: PassWordFormType) {
+  return request.put<null>({
+    url: Api.UserPassword,
     data,
   });
 }

@@ -73,7 +73,7 @@ import LogoFull from '@/assets/assets-logo-full.svg?component';
 import { prefix } from '@/config/global';
 import AddMenu from '@/pages/menu/menu/components/addMenu.vue';
 import { getActive } from '@/router';
-import { selfUserStore, useMenuStore, useSettingStore } from '@/store';
+import { useMenuStore, useSelfStore, useSettingStore } from '@/store';
 import type { MenuRoute } from '@/types/interface';
 
 import MenuContent from './MenuContent.vue';
@@ -118,7 +118,7 @@ const props = defineProps({
 
 const router = useRouter();
 const settingStore = useSettingStore();
-const user = selfUserStore();
+const user = useSelfStore();
 
 const toggleSettingPanel = () => {
   settingStore.updateConfig({

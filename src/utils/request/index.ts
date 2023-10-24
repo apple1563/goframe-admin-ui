@@ -5,7 +5,7 @@ import merge from 'lodash/merge';
 import { MessagePlugin } from 'tdesign-vue-next';
 
 import { ContentTypeEnum } from '@/constants';
-import { selfUserStore } from '@/store';
+import { useSelfStore } from '@/store';
 
 import { VAxios } from './Axios';
 import type { AxiosTransform, CreateAxiosOptions } from './AxiosTransform';
@@ -114,7 +114,7 @@ const transform: AxiosTransform = {
   // 请求拦截器处理
   requestInterceptors: (config, options) => {
     // 请求之前处理config
-    const userStore = selfUserStore();
+    const userStore = useSelfStore();
     const { token } = userStore;
 
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
