@@ -17,8 +17,8 @@ export const useSelfStore = defineStore('self', {
   }),
   getters: {},
   actions: {
-    init() {
-      this.token = res.token;
+    init(token) {
+      this.token = token;
       const permissionStore = usePermissionStore();
       permissionStore.initButtons();
     },
@@ -31,14 +31,14 @@ export const useSelfStore = defineStore('self', {
       const { isOpened } = await getOtpCheckByUsername({ username: loginInfo.account });
       this.isOpened = isOpened;
       if (!isOpened) {
-        this.init();
+        this.init(res.token);
       } else {
         this.tempToken = res.token;
       }
     },
     async login2step(login2Info: Record<string, string>) {
       await otpValidate({ code: login2Info.code, username: login2Info.username });
-      this.init();
+      this.init(this.tempToken);
     },
     async getUserInfo() {
       const res = await getUserInfo();

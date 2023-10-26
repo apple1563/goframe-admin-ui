@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia';
 
-import type { UserItem, UserList } from '@/api/model/userModel';
-import { getList, getTreeList } from '@/api/user';
+import type { NoticeItem, NoticeParam } from '@/api/model/noticeModel';
+import { getList } from '@/api/notice';
 import type { Pagination } from '@/types/interface';
 
-export const useUserStore = defineStore('user', {
+export const useNoticeStore = defineStore('notice', {
   state: () => ({
-    userTreeList: [],
-    userList: [],
+    noticeList: [],
     addVisible: false,
     editVisible: false,
     currentRow: {},
@@ -18,33 +17,30 @@ export const useUserStore = defineStore('user', {
       current: 1,
       pageSize: 20,
     },
-    searchFormData: {
-      username: '',
-      roleId: null,
-      id: null,
-      pUsername: '',
+    searchFormData: <NoticeParam>{
+      title: '',
+      content: '',
+      tag: '',
+      creater: '',
     },
     dataLoading: false,
   }),
   getters: {},
   actions: {
-    async getUserTreeList() {
-      const res = await getTreeList();
-      this.userTreeList = res.list;
-    },
-    async getUserList() {
+    async getNoticeList() {
       this.dataLoading = true;
-      const res = await getList<UserList>({
-        username: this.searchFormData.username,
-        roleId: this.searchFormData.roleId,
-        pUsername: this.searchFormData.pUsername,
+      const res = await getList({
         id: this.searchFormData.id,
+        title: this.searchFormData.title,
+        content: this.searchFormData.content,
+        creater: this.searchFormData.creater,
+        tag: this.searchFormData.tag,
         page: this.pagination.current,
         size: this.pagination.pageSize,
       }).finally(() => {
         this.dataLoading = false;
       });
-      this.userList = res.list;
+      this.noticeList = res.list;
       this.pagination.total = res.total;
       this.pagination.current = res.page;
       this.pagination.pageSize = res.size;
@@ -55,7 +51,7 @@ export const useUserStore = defineStore('user', {
     setEditVisible(bool: boolean) {
       this.editVisible = bool;
     },
-    setCurrentRow(v: UserItem) {
+    setCurrentRow(v: NoticeItem) {
       this.currentRow = v;
     },
     setPagination(v: Pagination) {
