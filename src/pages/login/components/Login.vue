@@ -50,7 +50,7 @@
     </template>
 
     <!-- 手机号登录 -->
-    <template v-else>
+    <!--    <template v-else>
       <t-form-item name="phone">
         <t-input v-model="formData.phone" size="large" placeholder="请输入手机号码">
           <template #prefix-icon>
@@ -65,7 +65,7 @@
           {{ countDown == 0 ? '发送验证码' : `${countDown}秒后可重发` }}
         </t-button>
       </t-form-item>
-    </template>
+    </template>-->
 
     <t-form-item v-if="type !== 'qrcode'" class="btn-container">
       <t-button block size="large" type="submit"> 登录 </t-button>
@@ -98,7 +98,7 @@ import { MessagePlugin } from 'tdesign-vue-next';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import { useCounter } from '@/hooks';
+// import { useCounter } from '@/hooks';
 import { useSelfStore } from '@/store';
 
 const selfStore = useSelfStore();
@@ -108,7 +108,7 @@ const INITIAL_DATA = {
   account: 'root',
   password: '1',
   // verifyCode: '',
-  checked: false,
+  // checked: false,
 };
 
 const FORM_RULES: Record<string, FormRule[]> = {
@@ -125,7 +125,7 @@ const form = ref<FormInstanceFunctions>();
 const formData = ref({ ...INITIAL_DATA });
 const showPsw = ref(false);
 
-const [countDown, handleCounter] = useCounter();
+// const [countDown, handleCounter] = useCounter();
 
 const switchType = (val: string) => {
   type.value = val;
@@ -137,13 +137,13 @@ const route = useRoute();
 /**
  * 发送验证码
  */
-const sendCode = () => {
+/* const sendCode = () => {
   form.value.validate({ fields: ['phone'] }).then((e) => {
     if (e === true) {
       handleCounter();
     }
   });
-};
+}; */
 
 const onSubmit = async (ctx: SubmitContext) => {
   if (ctx.validateResult === true) {

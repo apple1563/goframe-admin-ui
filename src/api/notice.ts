@@ -7,7 +7,7 @@ const Api = {
   NoticeListType: '/notice/list/type',
 };
 
-export function addNotice(data: NoticeItem) {
+export function addNotice(data: NoticeParam) {
   return request.post<null>({
     url: Api.Notice,
     data,

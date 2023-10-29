@@ -1,4 +1,4 @@
-import type { MenuParam, MenuTreeResult } from '@/api/model/menuModel';
+import type { MenuParam, MenuRoleResult, MenuTreeResult } from '@/api/model/menuModel';
 import { request } from '@/utils/request';
 
 const Api = {
@@ -45,7 +45,7 @@ export function setRoleMenu(roleId: number, menuIds: Array<number>) {
 }
 
 export function getRoleMenu(roleId: number) {
-  return request.get<null>({
+  return request.get<MenuRoleResult>({
     url: Api.roleMenu,
     params: {
       roleId,

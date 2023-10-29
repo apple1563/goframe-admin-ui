@@ -52,7 +52,7 @@ const treeProps = {
     children: 'children',
   },
 };
-const expanded = [];
+const expanded: Array<string | number> = [];
 
 const onInput = () => {
   filterByText.value = (node: TreeNodeModel) => {

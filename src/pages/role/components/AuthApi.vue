@@ -27,6 +27,7 @@
 
 <script setup lang="ts">
 import { MessagePlugin } from 'tdesign-vue-next';
+import { SelectOption, SelectValue, SelectValueChangeTrigger } from 'tdesign-vue-next/es/select/type';
 import { ref, watch } from 'vue';
 
 import { getRoleApi, setRoleApi } from '@/api/api';
@@ -63,7 +64,7 @@ const onSubmit = async () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
   await setRoleApi(
     roleStore.currentRow.id,
-    selecteds.value.map((o) => {
+    selecteds.value.map((o: string) => {
       const arr = o.split('-');
       return {
         url: arr[0],
@@ -74,16 +75,24 @@ const onSubmit = async () => {
   MessagePlugin.success('设置成功').then();
   handleClose();
 };
-const filterMethod = (search, option) => {
+const filterMethod = (search: string, option: { label: string }) => {
   console.log('filter:', search, option);
   return option.label.indexOf(search) !== -1;
 };
 
-const handleBlur = ({ value, e }) => {
-  console.log('handleBlur: ', value, e);
+const handleBlur = (ctx: { value: SelectValue; e: FocusEvent | KeyboardEvent }) => {
+  console.log('handleBlur: ', ctx.value, ctx.e);
 };
 
-const handleChange = (value, context) => {
+const handleChange = (
+  value: SelectValue,
+  context: {
+    option?: SelectOption;
+    selectedOptions: SelectOption[];
+    trigger: SelectValueChangeTrigger;
+    e?: MouseEvent | KeyboardEvent;
+  },
+) => {
   // context.selectedOptions
   console.log('handleChange: ', value, context);
 };

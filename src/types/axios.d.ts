@@ -92,6 +92,7 @@ export interface Result<T = any> {
   code: number;
   data: T;
   message: string;
+  msg: string;
 }
 
 export interface AxiosRequestConfigRetry extends AxiosRequestConfig {

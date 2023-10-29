@@ -1,5 +1,6 @@
 export interface UserParam {
   username?: string;
+  password?: string;
   id?: number;
   pid?: number;
   roleId?: number;
@@ -21,12 +22,12 @@ export interface UserInfo<T> {
 
 export interface UserItem {
   id?: number;
-  username: string;
-  password: string;
+  username?: string;
+  password?: string;
   nickname?: string;
   email?: string;
   phone?: string;
-  status: number;
+  status?: number;
   clientAgent?: string;
   ip?: string;
   roleId?: number;

@@ -48,7 +48,7 @@ export function setRoleApi(roleId: number, apis: Array<ApiItem>) {
 }
 
 export function getRoleApi(roleId: number) {
-  return request.get<null>({
+  return request.get<ApiResult>({
     url: Api.roleApi,
     params: {
       roleId,

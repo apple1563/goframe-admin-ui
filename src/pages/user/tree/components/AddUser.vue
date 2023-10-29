@@ -34,16 +34,20 @@
 
 <script setup lang="ts">
 import { MessagePlugin } from 'tdesign-vue-next';
+import { AllValidateResult, FormValidateResult } from 'tdesign-vue-next/es/form/type';
 import { onMounted, ref } from 'vue';
 
-import type { UserItem } from '@/api/model/userModel';
 import { addUser } from '@/api/user';
 import { useRoleStore, useUserStore } from '@/store';
 
 import { RULES } from '../constants';
 // eslint-disable-next-line
 const form = ref(null);
-const formData = ref<UserItem>({});
+const formData = ref({
+  username: '',
+  password: '',
+  roleId: 0,
+});
 const keys = { value: 'id', label: 'name' };
 const roleOptions = ref([]);
 const userStore = useUserStore();
@@ -62,7 +66,7 @@ const onReset = () => {
 };
 const onSubmit = () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
-  form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
+  form.value.validate({ showErrorMessage: true }).then(async (validateResult: FormValidateResult<any>) => {
     if (validateResult === true) {
       await addUser({
         ...formData.value,
@@ -74,7 +78,7 @@ const onSubmit = () => {
       return;
     }
     if (validateResult && Object.keys(validateResult).length) {
-      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      const firstError = (Object.values(validateResult)[0] as Array<AllValidateResult>)?.[0]?.message;
       MessagePlugin.warning(firstError);
     }
   });

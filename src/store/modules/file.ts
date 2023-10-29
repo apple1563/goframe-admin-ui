@@ -11,7 +11,7 @@ export const useFileStore = defineStore('file', {
     fileTypeList: [],
     addVisible: false,
     editVisible: false,
-    currentRow: {},
+    currentRow: { drive: '', originName: '', remark: '', fileUrl: '', size: 0 },
     pagination: {
       defaultPageSize: 20,
       total: 100,

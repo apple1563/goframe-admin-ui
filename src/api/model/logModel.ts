@@ -1,7 +1,10 @@
 export interface LogParam {
+  id?: number;
   username?: string;
   ip?: string;
   timeBetween?: Array<string>;
+  page?: number;
+  size?: number;
 }
 export interface LoginLogResult {
   list: Array<LoginLogItem>;

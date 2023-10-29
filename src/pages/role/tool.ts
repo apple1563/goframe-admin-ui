@@ -6,7 +6,23 @@
       { label: '选项二', value: 2 },
     ],
   }] */
-export function listToGroup(data = []) {
+type DataItemType = {
+  group: string;
+  children: Array<ChildItemType>;
+};
+
+type ChildItemType = {
+  label: string;
+  value: number;
+};
+
+type DataParam = {
+  group: string;
+  url: string;
+  method: string;
+};
+
+export function listToGroup(data: Array<DataParam>): Array<DataItemType> {
   return data.reduce((acc, item) => {
     // 查找具有相同分组的现有项
     const existingGroup = acc.find((group) => group.group === item.group);

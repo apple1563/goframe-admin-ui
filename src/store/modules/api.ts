@@ -9,7 +9,7 @@ export const useApiStore = defineStore('api', {
     apiList: [],
     addVisible: false,
     editVisible: false,
-    currentRow: {},
+    currentRow: { url: '', method: '', remark: '' },
     pagination: {
       defaultPageSize: 20,
       total: 100,

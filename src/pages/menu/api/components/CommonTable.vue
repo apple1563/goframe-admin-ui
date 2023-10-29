@@ -85,6 +85,7 @@ import { MessagePlugin, PageInfo, TableRowData } from 'tdesign-vue-next';
 import { computed, onMounted, ref } from 'vue';
 
 import { delApi } from '@/api/api';
+import type { ApiItem } from '@/api/model/apiModel';
 import { prefix } from '@/config/global';
 import { useApiStore, useSettingStore } from '@/store';
 
@@ -129,7 +130,7 @@ onMounted(() => {
   apiStore.getApiList();
 });
 
-const handleClickDelete = (slot: { row: { id: number } }) => {
+const handleClickDelete = (slot: { row: ApiItem }) => {
   deleteIdx.value = slot.row.id;
   confirmVisible.value = true;
 };
@@ -153,7 +154,7 @@ const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);
 };
 
-const rehandleClickOp = (slot: { row: { id: number } }) => {
+const rehandleClickOp = (slot: { row: ApiItem }) => {
   apiStore.setCurrentRow(slot.row);
   editApi();
 };

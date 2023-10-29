@@ -40,13 +40,14 @@ export default {
 </script>
 <script setup lang="ts">
 import { MessagePlugin } from 'tdesign-vue-next';
+import { AllValidateResult, FormValidateResult } from 'tdesign-vue-next/es/form/type';
 import { ref } from 'vue';
 
 import type { PassWordFormType } from '@/api/model/userModel';
 import { updateUserPassword } from '@/api/user';
 
 const disabled = ref(true);
-const formData = ref<PassWordFormType>({});
+const formData = ref<PassWordFormType>({ password: '', passwordNew: '' });
 const form = ref(null);
 
 const rules = {
@@ -54,20 +55,20 @@ const rules = {
   passwordNew: [
     { required: true },
     {
-      validator: (val) => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(val),
+      validator: (val: string) => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(val),
       message: '长度至少为 8 个字符，至少一个字母、一个数字和一个特殊字符（@, $, !, %, *, ?, &）',
     },
   ],
   passwordNewAgain: [
     { required: true },
     {
-      validator: (val) => val === formData.value.passwordNew,
+      validator: (val: string) => val === formData.value.passwordNew,
       message: '与新密码不一致',
     },
   ],
 };
 const save = () => {
-  form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
+  form.value.validate({ showErrorMessage: true }).then(async (validateResult: FormValidateResult<any>) => {
     if (validateResult === true) {
       await updateUserPassword({
         passwordNew: formData.value.passwordNew,
@@ -78,7 +79,7 @@ const save = () => {
       return;
     }
     if (validateResult && Object.keys(validateResult).length) {
-      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      const firstError = (Object.values(validateResult)[0] as Array<AllValidateResult>)?.[0]?.message;
       MessagePlugin.warning(firstError);
     }
   });

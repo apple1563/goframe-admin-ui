@@ -1,11 +1,12 @@
 export interface NoticeParam {
+  id?: string;
   title?: string;
   content?: string;
   tag?: string;
   creater?: string;
-  receivers: Array<number>;
-  page: number;
-  size: number;
+  receivers?: Array<number>;
+  page?: number;
+  size?: number;
 }
 
 export interface NoticeResult {
@@ -19,8 +20,8 @@ export interface NoticeItem {
   title: string;
   content: string;
   remark: string;
-  creater: string;
-  receivers: string;
+  creater?: string;
+  receivers: string | Array<number>;
   tag: string;
   sort: number;
   createdAt?: string;

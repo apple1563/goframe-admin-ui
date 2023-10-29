@@ -9,7 +9,7 @@ export const useButtonStore = defineStore('button', {
     buttonList: [],
     addVisible: false,
     editVisible: false,
-    currentRow: {},
+    currentRow: { title: '', name: '', menuId: 0, menuTitle: '', remark: '' },
     pagination: {
       defaultPageSize: 20,
       total: 100,

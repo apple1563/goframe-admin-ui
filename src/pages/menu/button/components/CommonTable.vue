@@ -93,6 +93,7 @@ import { MessagePlugin, PageInfo, TableRowData } from 'tdesign-vue-next';
 import { computed, onMounted, ref } from 'vue';
 
 import { delButton } from '@/api/button';
+import type { ButtonItem } from '@/api/model/buttonModel';
 import { prefix } from '@/config/global';
 import { useButtonStore, useSettingStore } from '@/store';
 
@@ -161,7 +162,7 @@ const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);
 };
 
-const rehandleClickOp = (slot: { row: { id: number } }) => {
+const rehandleClickOp = (slot: { row: ButtonItem }) => {
   buttonStore.setCurrentRow(slot.row);
   editButton();
 };

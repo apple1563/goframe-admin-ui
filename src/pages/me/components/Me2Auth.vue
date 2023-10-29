@@ -41,21 +41,22 @@ export default {
 <script setup lang="ts">
 import QrcodeVue from 'qrcode.vue';
 import { MessagePlugin } from 'tdesign-vue-next';
+import { AllValidateResult, FormValidateResult } from 'tdesign-vue-next/es/form/type';
 import { ref } from 'vue';
 
 import type { AddOtpParam, GetOtpRes } from '@/api/model/otpModel';
 import { addOtp, getOtp, getOtpCheck, updateOtp, updateOtpStatus } from '@/api/otp';
 
-const otpInfo = ref<GetOtpRes>({});
+const otpInfo = ref<GetOtpRes>({ secret: '', url: '' });
 const isOpened = ref(false);
 const isSetted = ref(false);
 const showContent = ref(false);
-const formData = ref<AddOtpParam>({});
+const formData = ref<AddOtpParam>({ secret: '', code: '' });
 const form = ref(null);
 const rules = {
   code: [{ required: true }],
 };
-const onChange = (val) => {
+const onChange = (val: number) => {
   updateOtpStatus({ status: val ? 1 : 2 }).catch(() => {
     // 没成功就恢复原状
     isOpened.value = !val;
@@ -79,7 +80,7 @@ const editOtp = () => {
   });
 };
 const save = () => {
-  form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
+  form.value.validate({ showErrorMessage: true }).then(async (validateResult: FormValidateResult<any>) => {
     if (validateResult === true) {
       if (isSetted.value) {
         await updateOtp({
@@ -100,7 +101,7 @@ const save = () => {
       return;
     }
     if (validateResult && Object.keys(validateResult).length) {
-      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      const firstError = (Object.values(validateResult)[0] as Array<AllValidateResult>)?.[0]?.message;
       MessagePlugin.warning(firstError);
     }
   });

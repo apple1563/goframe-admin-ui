@@ -1,12 +1,14 @@
 export interface DictParam {
+  id?: number;
   configType?: string;
   configName?: string;
   createBy?: string;
   updateBy?: string;
-  configKey: string;
-  configValue: string;
-  page: number;
-  size: number;
+  configKey?: string;
+  configValue?: string;
+  remark?: string;
+  page?: number;
+  size?: number;
 }
 
 export interface DictResult {
@@ -24,4 +26,5 @@ export interface DictItem {
   configValue: string;
   createBy?: string;
   updateBy?: string;
+  disabled?: boolean;
 }

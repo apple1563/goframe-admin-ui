@@ -1,8 +1,8 @@
 export interface FileParam {
   drive: string;
-  ext: string;
-  file?: Array<any>;
-  fileBig?: Array<any>;
+  ext?: string;
+  file?: Array<File>;
+  fileBig?: Array<File>;
   remark?: string;
   originName?: string;
   page?: number;
@@ -29,7 +29,9 @@ export interface FileItem {
 }
 
 export interface FileChunkParam {
+  drive: string;
   chunkIndex: number;
+  size: number;
   totalChunks: number;
   temp: string;
   originName: string;

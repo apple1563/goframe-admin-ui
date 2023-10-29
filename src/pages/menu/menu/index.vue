@@ -66,11 +66,12 @@ const activedLeaf = ref();
 const filterByText = ref();
 const filterText = ref();
 
-const expanded = [];
-const selectedMenuData = ref({});
+const expanded: Array<number | string> = [];
+
+const selectedMenuData = ref();
 const selectMenu = (
   value: Array<TreeNodeValue>,
-  context: { node: TreeNodeModel<T>; e?: MouseEvent; trigger: 'node-click' | 'setItem' },
+  context: { node: TreeNodeModel; e?: MouseEvent; trigger: 'node-click' | 'setItem' },
 ) => {
   selectedMenuData.value = context.node.data;
   console.log(context.node);

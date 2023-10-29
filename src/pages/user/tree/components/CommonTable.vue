@@ -98,6 +98,7 @@
 import { MessagePlugin, PageInfo, TableRowData } from 'tdesign-vue-next';
 import { computed, onMounted, ref } from 'vue';
 
+import type { UserItem } from '@/api/model/userModel';
 import { delUser } from '@/api/user';
 import { prefix } from '@/config/global';
 import { useRoleStore, useSettingStore, useUserStore } from '@/store';
@@ -124,6 +125,7 @@ onMounted(() => {
   });
 });
 
+const form = ref();
 const searchForm = userStore.searchFormData;
 
 const rowKey = 'index';
@@ -183,9 +185,9 @@ const rehandleClickOpAdd = () => {
   userStore.setAddVisible(true);
 };
 
-const rehandleClickOpEdit = (ctx: unknown) => {
+const rehandleClickOpEdit = (slot: { row: UserItem }) => {
   userStore.setEditVisible(true);
-  userStore.setCurrentRow(ctx.row);
+  userStore.setCurrentRow(slot.row);
 };
 
 const headerAffixedTop = computed(

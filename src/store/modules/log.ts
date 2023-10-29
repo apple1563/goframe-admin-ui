@@ -25,7 +25,7 @@ export const useLogStore = defineStore('log', {
   actions: {
     async getLoginLogList() {
       this.dataLoading = true;
-      const res: LoginLogResult = await getLoginLogList<LoginLogResult>({
+      const res: LoginLogResult = await getLoginLogList({
         id: this.searchFormData.id,
         username: this.searchFormData.username,
         ip: this.searchFormData.ip,

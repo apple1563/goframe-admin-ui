@@ -18,7 +18,7 @@ export const useDictStore = defineStore('dict', {
       pageSize: 20,
     },
     searchFormData: <DictParam>{
-      id: '',
+      id: 0,
       configKey: '',
       configName: '',
       configType: '',

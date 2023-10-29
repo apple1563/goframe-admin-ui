@@ -1,9 +1,11 @@
 export interface ButtonParam {
   name?: string;
   title?: string;
+  menuId?: number;
   menuTitle?: string;
-  page: number;
-  size: number;
+  remark?: string;
+  page?: number;
+  size?: number;
 }
 
 export interface ButtonResult {
@@ -14,10 +16,14 @@ export interface ButtonResult {
 }
 
 export interface ButtonItem {
-  id?: number;
+  id?: number | null;
   title: string;
   name: string;
   menuId: number;
   menuTitle?: string;
   remark: string;
+}
+
+export interface ButtonRoleResult {
+  list: Array<string | number>;
 }

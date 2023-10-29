@@ -74,16 +74,17 @@
 
 <script setup lang="ts">
 import { MessagePlugin } from 'tdesign-vue-next';
+import { AllValidateResult, FormValidateResult } from 'tdesign-vue-next/es/form/type';
+import type { RequestMethodResponse, UploadFailContext, UploadFile } from 'tdesign-vue-next/es/upload/type';
 import { ref, watch } from 'vue';
 
 import { addChunkFile, addFile } from '@/api/file';
-import type { FileParam } from '@/api/model/fileModel';
 import { useFileStore } from '@/store';
 
 import { RULES } from '../constants';
 // eslint-disable-next-line
 const form = ref(null);
-const formData = ref<FileParam>({ file: [], fileBig: [] });
+const formData = ref({ drive: '', remark: '', file: [], fileBig: [] });
 const type = ref(1);
 const uploadRef = ref();
 const uploadBigRef = ref();
@@ -104,7 +105,7 @@ const handleClose = () => {
 const onReset = () => {
   form.value.reset();
 };
-const requestMethod = (file) => {
+const requestMethod = (file: UploadFile | Array<UploadFile>): Promise<RequestMethodResponse> => {
   return new Promise((resolve) => {
     // 上传进度控制示例
     let percent = 0;
@@ -131,12 +132,12 @@ const requestMethod = (file) => {
     }, 1000);
   });
 };
-const handleRequestFail = (e) => {
+const handleRequestFail = (e: UploadFailContext) => {
   console.log(e);
 };
 const CHUNK_SIZE = 5 * 1024 * 1024; // 分片大小，这里设置为10MB
 const MAX_CONCURRENT_REQUESTS = 50; // 最大并发请求数
-const requestBigMethod = (file) => {
+const requestBigMethod = (file: UploadFile): Promise<RequestMethodResponse> => {
   uploadBigRef.value.uploadFilePercent({ file, percent: 50 });
   console.log(file);
   const { size } = file;
@@ -162,7 +163,7 @@ const requestBigMethod = (file) => {
     const uploadPromises = [];
 
     for (let i = 0; i < totalChunks; i++) {
-      const chunk = new File([fileChunks[i]], i);
+      const chunk = new File([fileChunks[i]], String(i));
       /*  const percent = Math.floor(((i + 1) / totalChunks) * 100);
       uploadBigRef.value.uploadFilePercent({ file, percent }); */
 
@@ -188,7 +189,7 @@ const requestBigMethod = (file) => {
         // 如果所有分片上传完毕
         if (uploadedChunks === totalChunks) {
           console.log(res);
-          resolve({ status: 'success', response: 'Upload completed' });
+          resolve({ status: 'success', response: { msg: 'Upload completed' } });
           fileStore.getFileList();
         }
       });
@@ -209,17 +210,11 @@ const requestBigMethod = (file) => {
 
 const onSubmit = () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
-  form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
+  form.value.validate({ showErrorMessage: true }).then(async (validateResult: FormValidateResult<any>) => {
     if (validateResult === true) {
-      if (type.value === 1) {
-        await addFile({
-          ...formData.value,
-        });
-      } else {
-        await addBigFile({
-          ...formData.value,
-        });
-      }
+      await addFile({
+        ...formData.value,
+      });
 
       MessagePlugin.success('添加成功');
       fileStore.getFileList();
@@ -227,7 +222,7 @@ const onSubmit = () => {
       return;
     }
     if (validateResult && Object.keys(validateResult).length) {
-      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      const firstError = (Object.values(validateResult)[0] as Array<AllValidateResult>)?.[0]?.message;
       MessagePlugin.warning(firstError);
     }
   });

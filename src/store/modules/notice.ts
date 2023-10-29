@@ -9,7 +9,7 @@ export const useNoticeStore = defineStore('notice', {
     noticeList: [],
     addVisible: false,
     editVisible: false,
-    currentRow: {},
+    currentRow: { tag: '', content: '', title: '', sort: 0, remark: '', receivers: '[]' },
     pagination: {
       defaultPageSize: 20,
       total: 100,

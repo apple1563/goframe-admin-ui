@@ -91,6 +91,7 @@
 import { MessagePlugin, PageInfo, TableRowData } from 'tdesign-vue-next';
 import { computed, onMounted, ref } from 'vue';
 
+import type { NoticeItem } from '@/api/model/noticeModel';
 import { delNotice } from '@/api/notice';
 import { prefix } from '@/config/global';
 import { useNoticeStore, useSettingStore } from '@/store';
@@ -159,7 +160,7 @@ const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);
 };
 
-const rehandleClickOp = (slot: { row: { id: number } }) => {
+const rehandleClickOp = (slot: { row: NoticeItem }) => {
   noticeStore.setCurrentRow(slot.row);
   editNotice();
 };

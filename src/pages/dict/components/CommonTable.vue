@@ -118,6 +118,7 @@ import { MessagePlugin, PageInfo, TableRowData } from 'tdesign-vue-next';
 import { computed, onMounted, ref } from 'vue';
 
 import { delDict } from '@/api/dict';
+import type { DictItem } from '@/api/model/dictModel';
 import { prefix } from '@/config/global';
 import { useDictStore, useSettingStore } from '@/store';
 
@@ -185,7 +186,7 @@ const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);
 };
 
-const rehandleClickOp = (slot: { row: { id: number } }) => {
+const rehandleClickOp = (slot: { row: DictItem }) => {
   dictStore.setCurrentRow(slot.row);
   editDict();
 };

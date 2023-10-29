@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import type { UserItem, UserList } from '@/api/model/userModel';
+import type { UserItem } from '@/api/model/userModel';
 import { getList, getTreeList } from '@/api/user';
 import type { Pagination } from '@/types/interface';
 
@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', {
     userList: [],
     addVisible: false,
     editVisible: false,
-    currentRow: {},
+    currentRow: { username: '', nickname: '', email: '', phone: '', status: 0, roleId: 0 },
     pagination: {
       defaultPageSize: 20,
       total: 100,
@@ -34,7 +34,7 @@ export const useUserStore = defineStore('user', {
     },
     async getUserList() {
       this.dataLoading = true;
-      const res = await getList<UserList>({
+      const res = await getList({
         username: this.searchFormData.username,
         roleId: this.searchFormData.roleId,
         pUsername: this.searchFormData.pUsername,

@@ -1,4 +1,4 @@
-import type { ButtonItem, ButtonParam, ButtonResult } from '@/api/model/buttonModel';
+import type { ButtonParam, ButtonResult, ButtonRoleResult } from '@/api/model/buttonModel';
 import { request } from '@/utils/request';
 
 const Api = {
@@ -7,14 +7,14 @@ const Api = {
   roleButton: '/button/role',
 };
 
-export function addButton(data: ButtonItem) {
+export function addButton(data: ButtonParam) {
   return request.post<null>({
     url: Api.Button,
     data,
   });
 }
 
-export function updateButton(data: ButtonItem) {
+export function updateButton(data: ButtonParam) {
   return request.put<null>({
     url: Api.Button,
     data,
@@ -48,7 +48,7 @@ export function setRoleButton(roleId: number, buttonIds: Array<number>) {
 }
 
 export function getRoleButton(roleId: number) {
-  return request.get<null>({
+  return request.get<ButtonRoleResult>({
     url: Api.roleButton,
     params: {
       roleId,

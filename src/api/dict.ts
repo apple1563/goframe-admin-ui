@@ -1,4 +1,4 @@
-import type { DictItem, DictParam, DictResult } from '@/api/model/dictModel';
+import type { DictParam, DictResult } from '@/api/model/dictModel';
 import { request } from '@/utils/request';
 
 const Api = {
@@ -7,14 +7,14 @@ const Api = {
   DictListType: '/dict/list/type',
 };
 
-export function addDict(data: DictItem) {
+export function addDict(data: DictParam) {
   return request.post<null>({
     url: Api.Dict,
     data,
   });
 }
 
-export function updateDict(data: DictItem) {
+export function updateDict(data: DictParam) {
   return request.put<null>({
     url: Api.Dict,
     data,

@@ -13,7 +13,7 @@ export const useRoleStore = defineStore('role', {
     menuPermissionVisible: false,
     buttonPermissionVisible: false,
     apiPermissionVisible: false,
-    currentRow: {},
+    currentRow: { id: 0 },
     pagination: {
       defaultPageSize: 20,
       total: 100,

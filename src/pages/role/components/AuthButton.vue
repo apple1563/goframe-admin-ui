@@ -29,16 +29,16 @@
 
 <script setup lang="ts">
 import { MessagePlugin } from 'tdesign-vue-next';
+import { SelectOption, SelectValue, SelectValueChangeTrigger } from 'tdesign-vue-next/es/select/type';
 import { ref, watch } from 'vue';
 
 import { getRoleButton, setRoleButton } from '@/api/button';
-import type { ButtonItem } from '@/api/model/buttonModel';
 import { useButtonStore, useRoleStore } from '@/store';
 // eslint-disable-next-line
 const roleStore = useRoleStore();
 const buttonStore = useButtonStore();
 // const keys = { label: 'title', value: 'id' };
-const options = ref<Array<ButtonItem>>([]);
+const options = ref([]);
 const selecteds = ref();
 buttonStore.setPagination({ current: 1, pageSize: 9999 });
 buttonStore.getButtonList().then(() => {
@@ -64,16 +64,24 @@ const onSubmit = async () => {
   MessagePlugin.success('设置成功').then();
   handleClose();
 };
-const filterMethod = (search, option) => {
+const filterMethod = (search: string, option: { label: string }) => {
   console.log('filter:', search, option);
   return option.label.indexOf(search) !== -1;
 };
 
-const handleBlur = ({ value, e }) => {
-  console.log('handleBlur: ', value, e);
+const handleBlur = (ctx: { value: SelectValue; e: FocusEvent | KeyboardEvent }) => {
+  console.log('handleBlur: ', ctx.value, ctx.e);
 };
 
-const handleChange = (value, context) => {
+const handleChange = (
+  value: SelectValue,
+  context: {
+    option?: SelectOption;
+    selectedOptions: SelectOption[];
+    trigger: SelectValueChangeTrigger;
+    e?: MouseEvent | KeyboardEvent;
+  },
+) => {
   // context.selectedOptions
   console.log('handleChange: ', value, context);
 };

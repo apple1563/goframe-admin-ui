@@ -28,11 +28,11 @@ export type CommonObjType = {
 };
 
 export interface Pagination {
-  defaultPageSize: number;
-  total: number;
-  defaultCurrentnumber;
-  currentnumber;
-  pageSize: number;
+  defaultPageSize?: number;
+  total?: number;
+  defaultCurrent?: number;
+  current?: number;
+  pageSize?: number;
 }
 
 export interface NotificationItem {

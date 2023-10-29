@@ -16,12 +16,12 @@ export interface RoleResultForSelect {
 }
 
 export interface RoleItem {
-  id: number;
-  status: number;
-  listOrder: number;
-  name: string;
-  remark: string;
-  dataScope: number;
-  createdAt: string;
-  updatedAt: string;
+  id?: number;
+  status?: number;
+  listOrder?: number;
+  name?: string;
+  remark?: string;
+  dataScope?: number;
+  createdAt?: string;
+  updatedAt?: string;
 }

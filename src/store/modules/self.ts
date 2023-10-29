@@ -17,7 +17,7 @@ export const useSelfStore = defineStore('self', {
   }),
   getters: {},
   actions: {
-    init(token) {
+    init(token: string) {
       this.token = token;
       const permissionStore = usePermissionStore();
       permissionStore.initButtons();

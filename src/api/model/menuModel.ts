@@ -52,3 +52,7 @@ export interface MenuItem {
   updatedAt: string;
   children?: Array<MenuItem>;
 }
+
+export interface MenuRoleResult {
+  list: Array<number>;
+}

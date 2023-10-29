@@ -32,6 +32,7 @@
 
 <script setup lang="ts">
 import { MessagePlugin } from 'tdesign-vue-next';
+import { AllValidateResult, FormValidateResult } from 'tdesign-vue-next/es/form/type';
 import { ref, watch } from 'vue';
 
 import type { RoleItem } from '@/api/model/roleModel';
@@ -61,7 +62,7 @@ const onReset = () => {
 };
 const onSubmit = () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
-  form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
+  form.value.validate({ showErrorMessage: true }).then(async (validateResult: FormValidateResult<any>) => {
     if (validateResult === true) {
       await updateRole(formData.value);
       MessagePlugin.success('编辑成功');
@@ -70,7 +71,7 @@ const onSubmit = () => {
       return;
     }
     if (validateResult && Object.keys(validateResult).length) {
-      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      const firstError = (Object.values(validateResult)[0] as Array<AllValidateResult>)?.[0]?.message;
       MessagePlugin.warning(firstError);
     }
   });

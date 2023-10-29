@@ -63,11 +63,12 @@
 </template>
 
 <script setup lang="ts">
+import type { IDomEditor } from '@wangeditor/core';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 import { MessagePlugin } from 'tdesign-vue-next';
+import { AllValidateResult, FormValidateResult } from 'tdesign-vue-next/es/form/type';
 import { onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue';
 
-import type { NoticeItem } from '@/api/model/noticeModel';
 import { updateNotice } from '@/api/notice';
 import { useNoticeStore, useUserStore } from '@/store';
 
@@ -78,12 +79,16 @@ const userStore = useUserStore();
 
 const form = ref(null);
 
-const formData = ref<NoticeItem>({});
+const formData = ref({ tag: '', content: '', title: '', sort: 0, remark: '', receivers: [] });
 watch(
   () => noticeStore.editVisible,
   (v) => {
     if (v) {
-      formData.value = noticeStore.currentRow;
+      formData.value.content = noticeStore.currentRow.content;
+      formData.value.title = noticeStore.currentRow.title;
+      formData.value.tag = noticeStore.currentRow.tag;
+      formData.value.sort = noticeStore.currentRow.sort;
+      formData.value.remark = noticeStore.currentRow.remark;
       formData.value.receivers = JSON.parse(noticeStore.currentRow.receivers);
     }
   },
@@ -97,7 +102,7 @@ const onReset = () => {
 };
 const onSubmit = () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
-  form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
+  form.value.validate({ showErrorMessage: true }).then(async (validateResult: FormValidateResult<any>) => {
     if (validateResult === true) {
       await updateNotice({
         title: formData.value.title,
@@ -113,7 +118,7 @@ const onSubmit = () => {
       return;
     }
     if (validateResult && Object.keys(validateResult).length) {
-      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      const firstError = (Object.values(validateResult)[0] as Array<AllValidateResult>)?.[0]?.message;
       MessagePlugin.warning(firstError);
     }
   });
@@ -142,7 +147,7 @@ onBeforeUnmount(() => {
   editor.destroy();
 });
 
-const handleCreated = (editor) => {
+const handleCreated = (editor: IDomEditor) => {
   editorRef.value = editor; // 记录 editor 实例，重要！
 };
 </script>

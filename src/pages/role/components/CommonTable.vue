@@ -69,6 +69,7 @@
 import { MessagePlugin, PageInfo, TableRowData } from 'tdesign-vue-next';
 import { computed, onMounted, ref } from 'vue';
 
+import type { RoleItem } from '@/api/model/roleModel';
 import { delRole } from '@/api/role';
 import { prefix } from '@/config/global';
 import { COLUMNS, ROLE_STATUS } from '@/pages/role/constants';
@@ -78,17 +79,17 @@ const form = ref(null);
 
 const roleStore = useRoleStore();
 
-const rehandleClickOpMenu = (slot: { row: { id: number } }) => {
+const rehandleClickOpMenu = (slot: { row: RoleItem }) => {
   roleStore.setCurrentRow(slot.row);
   roleStore.setMenuPermissionVisible(true);
 };
 
-const rehandleClickOpAPI = (slot: { row: { id: number } }) => {
+const rehandleClickOpAPI = (slot: { row: RoleItem }) => {
   roleStore.setCurrentRow(slot.row);
   roleStore.setApiPermissionVisible(true);
 };
 
-const rehandleClickOpButton = (slot: { row: { id: number } }) => {
+const rehandleClickOpButton = (slot: { row: RoleItem }) => {
   roleStore.setCurrentRow(slot.row);
   roleStore.setButtonPermissionVisible(true);
 };
@@ -154,7 +155,7 @@ const rehandleChange = (changeParams: unknown, triggerAndData: unknown) => {
   console.log('统一Change', changeParams, triggerAndData);
 };
 
-const rehandleClickOp = (slot: { row: { id: number } }) => {
+const rehandleClickOp = (slot: { row: RoleItem }) => {
   roleStore.setCurrentRow(slot.row);
   roleStore.setEditVisible(true);
 };

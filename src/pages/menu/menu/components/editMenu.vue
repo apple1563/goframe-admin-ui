@@ -127,6 +127,7 @@
 
 <script setup lang="ts">
 import { MessagePlugin } from 'tdesign-vue-next';
+import { AllValidateResult, FormValidateResult } from 'tdesign-vue-next/es/form/type';
 import { computed, PropType, ref, watch } from 'vue';
 
 import { delMenu, editMenu } from '@/api/menu';
@@ -146,7 +147,7 @@ const treeProps = {
   },
 };
 const form = ref(null);
-const formData = ref<MenuItem>();
+const formData = ref(props.selectedMenuData);
 const menuStore = useMenuStore();
 
 watch(
@@ -162,7 +163,7 @@ const setIsRoot = () => {
 };
 const onSubmit = () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
-  form.value.validate({ showErrorMessage: true }).then((validateResult) => {
+  form.value.validate({ showErrorMessage: true }).then((validateResult: FormValidateResult<any>) => {
     if (validateResult === true) {
       editMenu(formData.value).then(() => {
         MessagePlugin.success('修改成功');
@@ -171,7 +172,7 @@ const onSubmit = () => {
       return;
     }
     if (validateResult && Object.keys(validateResult).length) {
-      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      const firstError = (Object.values(validateResult)[0] as Array<AllValidateResult>)?.[0]?.message;
       MessagePlugin.warning(firstError);
     }
   });

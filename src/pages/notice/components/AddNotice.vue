@@ -65,18 +65,19 @@
 <script setup lang="ts">
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
 
+import type { IDomEditor } from '@wangeditor/core';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 import { MessagePlugin } from 'tdesign-vue-next';
+import { AllValidateResult, FormValidateResult } from 'tdesign-vue-next/es/form/type';
 import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue';
 
-import type { NoticeItem } from '@/api/model/noticeModel';
 import { addNotice } from '@/api/notice';
 import { useNoticeStore, useUserStore } from '@/store';
 
 import { RULES } from '../constants';
 // eslint-disable-next-line
 const form = ref(null);
-const formData = ref<NoticeItem>({});
+const formData = ref({ content: '', title: '', sort: 0, remark: '', tag: '', receivers: [] });
 
 const noticeStore = useNoticeStore();
 const userStore = useUserStore();
@@ -89,7 +90,7 @@ const onReset = () => {
 };
 const onSubmit = () => {
   // 校验数据：只提交和校验，不在表单中显示错误文本信息。下方代码有效，勿删
-  form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
+  form.value.validate({ showErrorMessage: true }).then(async (validateResult: FormValidateResult<any>) => {
     if (validateResult === true) {
       await addNotice({
         ...formData.value,
@@ -100,7 +101,7 @@ const onSubmit = () => {
       return;
     }
     if (validateResult && Object.keys(validateResult).length) {
-      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      const firstError = (Object.values(validateResult)[0] as Array<AllValidateResult>)?.[0]?.message;
       MessagePlugin.warning(firstError);
     }
   });
@@ -129,7 +130,7 @@ onBeforeUnmount(() => {
   editor.destroy();
 });
 
-const handleCreated = (editor) => {
+const handleCreated = (editor: IDomEditor) => {
   editorRef.value = editor; // 记录 editor 实例，重要！
 };
 </script>

@@ -51,6 +51,7 @@ export default {
 </script>
 <script setup lang="ts">
 import { MessagePlugin } from 'tdesign-vue-next';
+import { AllValidateResult, FormValidateResult } from 'tdesign-vue-next/es/form/type';
 import { ref } from 'vue';
 
 import type { UserItem } from '@/api/model/userModel';
@@ -65,17 +66,20 @@ const form = ref(null);
 const rules = {
   phone: [
     {
-      validator: (val) => /^1(3\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\d|9[0-35-9])\d{8}$/.test(val),
+      validator: (val: string) => /^1(3\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\d|9[0-35-9])\d{8}$/.test(val),
       message: '手机号格式不正确',
     },
   ],
   email: [
     { required: false },
-    { validator: (val) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(val), message: '邮箱格式不正确' },
+    {
+      validator: (val: string) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(val),
+      message: '邮箱格式不正确',
+    },
   ],
 };
 const save = () => {
-  form.value.validate({ showErrorMessage: true }).then(async (validateResult) => {
+  form.value.validate({ showErrorMessage: true }).then(async (validateResult: FormValidateResult<any>) => {
     if (validateResult === true) {
       await updateUser({
         id: formData.value.id,
@@ -89,7 +93,7 @@ const save = () => {
       return;
     }
     if (validateResult && Object.keys(validateResult).length) {
-      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      const firstError = (Object.values(validateResult)[0] as Array<AllValidateResult>)?.[0]?.message;
       MessagePlugin.warning(firstError);
     }
   });
