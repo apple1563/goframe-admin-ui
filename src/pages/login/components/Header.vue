@@ -1,6 +1,7 @@
 <template>
   <header class="login-header">
-    <logo-full-icon class="logo" />
+    <!--    <logo-full-icon class="logo" />-->
+    <logo-gfa class="gfa-logo" />
     <div class="operations-container">
       <t-button theme="default" shape="square" variant="text" @click="navToGitHub">
         <t-icon name="logo-github" class="icon" />
@@ -16,7 +17,8 @@
 </template>
 
 <script setup lang="ts">
-import LogoFullIcon from '@/assets/assets-logo-full.svg?component';
+// import LogoFullIcon from '@/assets/assets-logo-full.svg?component';
+import LogoGfa from '@/assets/assets-logo-gfa-full.svg?component';
 import { useSettingStore } from '@/store';
 
 const settingStore = useSettingStore();
@@ -48,6 +50,11 @@ const navToHelper = () => {
   .logo {
     width: 178px;
     height: var(--td-comp-size-s);
+  }
+
+  .gfa-logo {
+    fill: orange;
+    width: 210px;
   }
 
   .operations-container {

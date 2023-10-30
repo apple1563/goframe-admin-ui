@@ -3,7 +3,7 @@
     <div class="result-slot-container">
       <t-button class="result-button" @click="() => $router.push('/')">返回首页</t-button>
       <div class="recommend-container">
-        <div>TDesign Starter 推荐以下主流浏览器</div>
+        <div>Goframe Admin 推荐以下主流浏览器</div>
         <div class="recommend-browser">
           <div>
             <thumbnail class="browser-icon" url="https://tdesign.gtimg.com/starter/result-page/chorme.png" />

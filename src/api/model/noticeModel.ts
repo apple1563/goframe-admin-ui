@@ -26,4 +26,10 @@ export interface NoticeItem {
   sort: number;
   createdAt?: string;
   updatedAt?: string;
+  status?: number;
+}
+
+export interface UpdateNoticeReceiveParam {
+  id: number;
+  status: number;
 }

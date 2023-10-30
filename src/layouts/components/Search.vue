@@ -5,6 +5,7 @@
       placeholder="请输入搜索内容"
       @blur="changeSearchFocus(false)"
       @focus="changeSearchFocus(true)"
+      @enter="goSearch"
     >
       <template #prefix-icon>
         <t-icon class="icon" name="search" size="16" />
@@ -28,6 +29,7 @@
       placeholder="输入要搜索内容"
       :autofocus="isSearchFocus"
       @blur="changeSearchFocus(false)"
+      @enter="goSearch"
     >
       <template #prefix-icon>
         <t-icon name="search" size="16" />
@@ -50,6 +52,17 @@ const changeSearchFocus = (value: boolean) => {
     searchData.value = '';
   }
   isSearchFocus.value = value;
+};
+const goSearch = (v: string) => {
+  if (v !== '') {
+    // 构建搜索参数并跳转到百度搜索页面
+    const ele = document.createElement('a');
+    ele.href = `https://www.baidu.com/s?wd=${encodeURIComponent(v)}`;
+    ele.target = '_blank';
+    ele.click();
+    ele.remove();
+    // window.location.href = `https://www.baidu.com/s?wd=${encodeURIComponent(v)}`;
+  }
 };
 </script>
 <style lang="less" scoped>

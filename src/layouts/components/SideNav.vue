@@ -3,12 +3,13 @@
     <t-menu :class="menuCls" :theme="theme" :value="active" :collapsed="collapsed" :default-expanded="defaultExpanded">
       <template #logo>
         <span v-if="showLogo" :class="`${prefix}-side-nav-logo-wrapper`" @click="goHome">
-          <component :is="getLogo()" :class="`${prefix}-side-nav-logo-${collapsed ? 't' : 'tdesign'}-logo`" />
+          <!--          <component :is="getLogo()" :class="`${prefix}-side-nav-logo-${collapsed ? 't' : 'tdesign'}-logo`" />-->
+          <component :is="getLogo()" :class="`${prefix}-side-nav-logo-${collapsed ? 'g' : 'gfa'}-logo`" />
         </span>
       </template>
       <menu-content :nav-data="menu" />
       <template #operations>
-        <span class="version-container"> {{ !collapsed ? 'TDesign Starter' : '' }} {{ pgk.version }} </span>
+        <span class="version-container"> {{ !collapsed ? 'Goframe Admin' : '' }} {{ pgk.version }} </span>
       </template>
     </t-menu>
     <div :class="`${prefix}-side-nav-placeholder${collapsed ? '-hidden' : ''}`"></div>
@@ -21,8 +22,10 @@ import type { PropType } from 'vue';
 import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
-import AssetLogoFull from '@/assets/assets-logo-full.svg?component';
-import AssetLogo from '@/assets/assets-t-logo.svg?component';
+// import AssetLogoFull from '@/assets/assets-logo-full.svg?component';
+// import AssetLogo from '@/assets/assets-t-logo.svg?component';
+import LogoGfa from '@/assets/assets-logo-gfa.svg?component';
+import LogoGfaFull from '@/assets/assets-logo-gfa-full.svg?component';
 import { prefix } from '@/config/global';
 import { getActive, getRoutesExpanded } from '@/router';
 import { useSettingStore } from '@/store';
@@ -119,8 +122,9 @@ const goHome = () => {
 };
 
 const getLogo = () => {
-  if (collapsed.value) return AssetLogo;
-  return AssetLogoFull;
+  if (collapsed.value) return LogoGfa;
+  return LogoGfaFull;
+  // return AssetLogoFull;
 };
 </script>
 

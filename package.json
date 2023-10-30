@@ -1,9 +1,8 @@
 {
-  "name": "@tencent/tdesign-vue-next-starter",
-  "version": "0.8.0",
+  "name": "goframe-admin-ui",
+  "version": "1.0.0",
   "scripts": {
     "dev:mock": "vite --open --mode mock",
-    "dev:local2": "vite --open --mode local2",
     "dev": "vite --open --mode development",
     "dev:linux": "vite --mode development",
     "build:test": "vite build --mode test",
