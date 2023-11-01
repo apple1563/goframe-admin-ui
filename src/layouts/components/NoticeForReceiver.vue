@@ -9,7 +9,7 @@
           >
         </div>
         <t-list v-if="unreadMsgCount > 0" class="narrow-scrollbar" :split="false">
-          <t-list-item v-for="(item, index) in msgData" :key="index">
+          <t-list-item v-for="(item, index) in unreadMsgData" :key="index">
             <div>
               <p class="msg-content" v-html="item.content"></p>
               <p class="msg-type">{{ item.tag }}</p>
@@ -50,9 +50,10 @@ const router = useRouter();
 const store = useNoticeReceiverStore();
 store.getUnreadMsgCount();
 store.getList();
-const { msgData, unreadMsgCount } = storeToRefs(store);
+const { msgData, unreadMsgData, unreadMsgCount } = storeToRefs(store);
 const setRead = (id: number) => {
-  store.updateMsgStatus({ id, status: 2 });
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  store.updateMsgStatus({ id, status: 2 }, () => {});
 };
 const setReadAll = () => {
   const arr: Array<number> = [];
@@ -61,7 +62,8 @@ const setReadAll = () => {
       arr.push(item.id);
     }
   }
-  store.batchUpdateMsgStatus(arr);
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  store.batchUpdateMsgStatus(arr, () => {});
 };
 const goDetail = () => {
   router.push('/me/notice/receiver');

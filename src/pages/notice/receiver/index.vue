@@ -2,10 +2,10 @@
   <t-space direction="vertical" size="large" style="width: 100%">
     <div class="t-row t-row--space-between t-row--align-center">
       <div class="receiver-title">消息中心</div>
-      <t-button size="medium" @click.stop="setReadAll">全部设为已读</t-button>
+      <t-button size="medium" @click.stop="setReadAll">全部已读</t-button>
     </div>
     <t-collapse @change="onCollapseChange">
-      <t-collapse-panel v-for="item in list" :key="item.id" :value="item.id" :header="item.title">
+      <t-collapse-panel v-for="item in msgData" :key="item.id" :value="item.id" :header="item.title">
         <template #headerRightContent>
           <t-space size="small">
             <t-tag>{{ item.tag }} </t-tag>
@@ -42,32 +42,24 @@ export default {
 };
 </script>
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import type { PageInfo } from 'tdesign-vue-next';
 import { CollapseValue, MessagePlugin } from 'tdesign-vue-next';
 import { computed, ref } from 'vue';
 
-import { delNoticeReceive, getNoticeReceiveList, updateNoticeReceive } from '@/api/notice';
+import { delNoticeReceive } from '@/api/notice';
+import { useNoticeReceiverStore } from '@/store';
 
-const current = ref(1);
-const pageSize = ref(30);
-const total = ref(10);
-const list = ref([]);
+const store = useNoticeReceiverStore();
+const { msgData, current, pageSize, total } = storeToRefs(store);
+
 const pageSizeOptions = [
   { label: '每页 10 条', value: 10 },
   { label: '每页 30 条', value: 30 },
   { label: '每页 100 条', value: 100 },
   { label: '每页 50 条', value: 50 },
 ];
-
-const getList = (): void => {
-  getNoticeReceiveList({ page: current.value, size: pageSize.value }).then((res) => {
-    current.value = res.page;
-    pageSize.value = res.size;
-    list.value = res.list;
-    total.value = res.total;
-  });
-};
-getList();
+store.getList();
 const onPageSizeChange = (size: number) => {
   console.log('page-size:', size);
   MessagePlugin.success(`pageSize变化为${size}`);
@@ -86,29 +78,26 @@ const onCollapseChange = (v: CollapseValue) => {
   console.log(v);
 };
 const setReadAll = () => {
-  const arr: Array<Promise<any>> = [];
-  for (const item of list.value) {
+  const arr: Array<number> = [];
+  for (const item of msgData.value) {
     if (item.status === 1) {
-      arr.push(
-        updateNoticeReceive({
-          id: item.id,
-          status: 2,
-        }),
-      );
+      arr.push(item.id);
     }
   }
-  Promise.all(arr).then(() => {
+  store.batchUpdateMsgStatus(arr, () => {
     MessagePlugin.success(`操作成功`);
-    getList();
   });
 };
-const setRead = async (id: number) => {
-  await updateNoticeReceive({
-    id,
-    status: 2,
-  });
-  MessagePlugin.success(`操作成功`);
-  getList();
+const setRead = (id: number) => {
+  store.updateMsgStatus(
+    {
+      id,
+      status: 2,
+    },
+    () => {
+      MessagePlugin.success(`操作成功`);
+    },
+  );
 };
 const confirmVisible = ref(false);
 const deleteIdx = ref(-1);
@@ -130,7 +119,7 @@ const onConfirmDelete = async () => {
   confirmVisible.value = false;
   MessagePlugin.success('删除成功');
   resetIdx();
-  getList();
+  store.getList();
 };
 const onCancel = () => {
   resetIdx();
