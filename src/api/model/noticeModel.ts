@@ -5,6 +5,7 @@ export interface NoticeParam {
   tag?: string;
   creater?: string;
   receivers?: Array<number>;
+  status?: number;
   page?: number;
   size?: number;
 }
@@ -32,4 +33,8 @@ export interface NoticeItem {
 export interface UpdateNoticeReceiveParam {
   id: number;
   status: number;
+}
+
+export interface NoticeReceiveUnreadResult {
+  count: number;
 }

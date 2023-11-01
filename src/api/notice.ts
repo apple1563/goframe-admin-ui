@@ -1,4 +1,10 @@
-import type { NoticeItem, NoticeParam, NoticeResult, UpdateNoticeReceiveParam } from '@/api/model/noticeModel';
+import type {
+  NoticeItem,
+  NoticeParam,
+  NoticeReceiveUnreadResult,
+  NoticeResult,
+  UpdateNoticeReceiveParam,
+} from '@/api/model/noticeModel';
 import { request } from '@/utils/request';
 
 const Api = {
@@ -6,6 +12,7 @@ const Api = {
   Notice: '/notice',
   NoticeReceiveList: '/notice/receive/list',
   NoticeReceive: '/notice/receive',
+  NoticeReceiveUnread: '/notice/receive/unread',
 };
 
 export function addNotice(data: NoticeParam) {
@@ -58,5 +65,11 @@ export function delNoticeReceive(id: number) {
     data: {
       id,
     },
+  });
+}
+
+export function getNoticeReceiveUnread() {
+  return request.get<NoticeReceiveUnreadResult>({
+    url: Api.NoticeReceiveUnread,
   });
 }

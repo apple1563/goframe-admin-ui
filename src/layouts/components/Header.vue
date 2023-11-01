@@ -22,8 +22,8 @@
           <search v-if="layout !== 'side'" :layout="layout" />
           <t-button theme="default" variant="text" @click="handleAddMenuVisible">添加菜单</t-button>
           <!-- 全局通知 -->
-          <notice />
-
+          <!--          <notice />-->
+          <notice-for-receiver />
           <t-tooltip placement="bottom" content="代码仓库">
             <t-button theme="default" shape="square" variant="text" @click="navToGitHub">
               <t-icon name="logo-github" />
@@ -79,7 +79,8 @@ import { useMenuStore, useSelfStore, useSettingStore } from '@/store';
 import type { MenuRoute } from '@/types/interface';
 
 import MenuContent from './MenuContent.vue';
-import Notice from './Notice.vue';
+// import Notice from './Notice.vue';
+import NoticeForReceiver from './NoticeForReceiver.vue';
 import Search from './Search.vue';
 
 const menuStore = useMenuStore();

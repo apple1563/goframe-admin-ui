@@ -13,6 +13,7 @@ export * from './modules/file';
 export * from './modules/log';
 export * from './modules/menu';
 export * from './modules/notice';
+export * from './modules/notice-receiver';
 export * from './modules/notification';
 export * from './modules/permission';
 export * from './modules/role';

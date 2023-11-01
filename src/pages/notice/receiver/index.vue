@@ -2,7 +2,7 @@
   <t-space direction="vertical" size="large" style="width: 100%">
     <div class="t-row t-row--space-between t-row--align-center">
       <div class="receiver-title">消息中心</div>
-      <t-button size="medium">全部设为已读</t-button>
+      <t-button size="medium" @click.stop="setReadAll">全部设为已读</t-button>
     </div>
     <t-collapse @change="onCollapseChange">
       <t-collapse-panel v-for="item in list" :key="item.id" :value="item.id" :header="item.title">
@@ -10,7 +10,7 @@
           <t-space size="small">
             <t-tag>{{ item.tag }} </t-tag>
             <t-tag v-if="item.status === 2">已读 </t-tag>
-            <t-button v-if="item.status === 1" size="small" @click.stop="onReadFinished(item.id)">设为已读</t-button>
+            <t-button v-if="item.status === 1" size="small" @click.stop="setRead(item.id)">设为已读</t-button>
             <t-button size="small" @click.stop="handleClickDelete(item.id)">删除</t-button>
           </t-space>
         </template>
@@ -85,8 +85,24 @@ const onPageChange = (pageInfo: PageInfo) => {
 const onCollapseChange = (v: CollapseValue) => {
   console.log(v);
 };
-
-const onReadFinished = async (id: number) => {
+const setReadAll = () => {
+  const arr: Array<Promise<any>> = [];
+  for (const item of list.value) {
+    if (item.status === 1) {
+      arr.push(
+        updateNoticeReceive({
+          id: item.id,
+          status: 2,
+        }),
+      );
+    }
+  }
+  Promise.all(arr).then(() => {
+    MessagePlugin.success(`操作成功`);
+    getList();
+  });
+};
+const setRead = async (id: number) => {
   await updateNoticeReceive({
     id,
     status: 2,
