@@ -37,7 +37,7 @@
           <t-dropdown :min-column-width="120" trigger="click">
             <template #dropdown>
               <t-dropdown-menu>
-                <t-dropdown-item class="operations-dropdown-container-item" @click="handleNav('/self/index')">
+                <t-dropdown-item class="operations-dropdown-container-item" @click="handleNav('/me/index')">
                   <t-icon name="user-circle"></t-icon>个人中心
                 </t-dropdown-item>
                 <t-dropdown-item class="operations-dropdown-container-item" @click="handleLogout">
@@ -163,11 +163,11 @@ const handleLogout = () => {
 };
 
 const navToGitHub = () => {
-  window.open('https://github.com/tencent/tdesign-vue-next-starter');
+  window.open('https://github.com/apple1563/goframe-admin/tree/admin');
 };
 
 const navToHelper = () => {
-  window.open('http://tdesign.tencent.com/starter/docs/get-started');
+  window.open('https://tdesign.tencent.com/starter/docs/vue-next/get-started');
 };
 </script>
 <style lang="less" scoped>

@@ -20,6 +20,7 @@ export const useSelfStore = defineStore('self', {
     init(token: string) {
       this.token = token;
       const permissionStore = usePermissionStore();
+      this.getUserInfo();
       permissionStore.initButtons();
     },
     async login(loginInfo: Record<string, string>) {
@@ -45,7 +46,9 @@ export const useSelfStore = defineStore('self', {
       this.selfInfo = res;
     },
     async logout() {
-      await Logout();
+      if (this.token) {
+        await Logout();
+      }
       this.token = '';
       this.selfInfo = { ...InitUserInfo };
     },
@@ -54,7 +57,6 @@ export const useSelfStore = defineStore('self', {
     afterRestore: () => {
       const permissionStore = usePermissionStore();
       permissionStore.initRoutes();
-      permissionStore.initButtons();
     },
     key: 'user',
     paths: ['token'],

@@ -9,7 +9,7 @@ export default [
     name: 'self',
     component: Layout,
     redirect: '/self/index',
-    meta: { title: '个人页', icon: 'user-circle' },
+    meta: { title: '个人页', icon: 'user-circle', orderNo: 10 },
     children: [
       {
         path: 'index',
@@ -23,7 +23,7 @@ export default [
     path: '/loginRedirect',
     name: 'loginRedirect',
     redirect: '/login',
-    meta: { title: '登录页', icon: shallowRef(LogoutIcon) },
+    meta: { title: '登录页', icon: shallowRef(LogoutIcon), orderNo: 11 },
     component: () => import('@/layouts/blank.vue'),
     children: [
       {
